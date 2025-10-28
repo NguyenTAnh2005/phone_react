@@ -7,8 +7,12 @@ export function LogIn() {
         <div className="h-screen flex items-center animate__animated animate__fadeIn">
             <form action={"POST"} className="border border-gray-300 border-1 rounded-xl bg-white text-gray-500 w-full max-w-[400px] px-10 py-10 text-[16px] mx-auto ">
                 <div className="text-center mb-7">
-                    <p className="text-black text-[28px] font-bold"> Welcome Back!</p>
-                    <p>Sign in to continue to your account</p>
+                    <p className="text-black text-[28px] font-bold">
+                        Welcome Back!
+                    </p>
+                    <p>
+                        Sign in to continue to your account
+                    </p>
                 </div>
                 <div className="mb-4">
                     <Input type={"email"} label={"Email address"}
