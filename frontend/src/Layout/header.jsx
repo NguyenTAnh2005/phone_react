@@ -6,7 +6,7 @@ import { list_nav } from "./StaticData/header_data";
 
 export function Header() {
     const [expand, setExpand] = useState(false);
-    const [isLogIn, setIsLogIn] = useState(true);
+    const [isLogIn, setIsLogIn] = useState(false);
     function changeMode() {
         setExpand(!expand);
     }
@@ -16,7 +16,7 @@ export function Header() {
     return (
         <>
             {/* ================== MAIN HEADER ---------LG ========================*/}
-            <div className="flex flex-row justify-between items-center w-full bg-white px-2 sticky top-0 shadow-md z-50">
+            <div className="flex flex-row justify-between items-center w-full bg-white px-2 sticky top-0 shadow-sm z-50">
                 <NavBrand />
                 <NavLink navLinks={list_nav} cls_name="hidden lg:flex lg:gap-7" />
                 <NavActions cls_name="hidden lg:flex lg:gap-5 w-[20%]" />
@@ -93,7 +93,7 @@ function ToggleNav({ changeMode }) {
 }
 function NavAccount({ isLogIn, cls_name = "" }) {
     return (
-        <Link to={isLogIn ? "/Account" : "/login"} className={`flex flex-col xl:flex-row xl:justify-center items-center text-mainCL group lg:w-[10%]
+        <Link to={isLogIn ? "/Account" : "/log-in"} className={`flex flex-col xl:flex-row xl:justify-center items-center text-mainCL group lg:w-[10%]
         hover:text-white rounded-lg hover:pr-7 hover:bg-mainCL hover:shadow-lg hover:shadow-mainCL transition-all duration-400 ease-linear px-2 py-1 ${cls_name}`}>
             <i className="bi bi-person-vcard text-xl group-hover:me-1 align-middle"></i>
             <span className="hidden text-base group-hover:block transition-all duration-400 ease-linear">

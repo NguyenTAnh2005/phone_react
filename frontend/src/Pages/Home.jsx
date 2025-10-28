@@ -30,10 +30,10 @@ export function Home() {
 
     return (
         <div className="animate__animated animate__fadeIn">
-            <div className="p-5 md:p-10  bg-slate-100">
+            <div className="p-5 md:p-10  bg-gray-50">
                 <Home_Banner services={data_service} />
             </div>
-            <div className="flex flex-col items-center bg-white p-5 md:p-10 xl:p-20">
+            <div className="flex flex-col items-center bg-gray-50 p-5 md:p-10 xl:p-20">
                 <p className="text-black text-[40px] font-semibold capitalize text-center">
                     Popular Phones
                 </p>

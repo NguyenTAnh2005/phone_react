@@ -4,6 +4,7 @@ import { scrollToTopSmooth } from "../utils/utils";
 import { company, ram, rom, os, chip, support } from "./StaticData/Phones_data";
 import { eg_phone } from "../Data_Test/Data_Home_Test";
 import { Input } from "../Components/input";
+import { SearchBar } from "../Components/search";
 
 export function Phones() {
     const [expand, setExpand] = useState(false);
@@ -20,10 +21,12 @@ export function Phones() {
     return (
         <>
             {scrollToTopSmooth()}
-            <div className="py-5 flex flex-col relative animate__animated animate__fadeIn bg-slate-100">
+            <div className="py-5 flex flex-col relative animate__animated animate__fadeIn bg-gray-50">
                 {/* ============================ PHẦN SEARCH BAR  */}
                 <div className="flex flex-col gap-0 lg:flex-row lg:gap-5 justify-center w-full items-center mb-3 ">
-                    <SearchBar />
+                    <div className="w-[75%] md:w-[50%]">
+                        <SearchBar placeholder={"Search phone..."} type={"button"} />
+                    </div>
                     <ModeSortPrice sortMode={sortMode} setSortMode={setSortMode} />
                 </div>
 
@@ -174,17 +177,7 @@ function FilterPartPrice({ title, cls_icon }) {
         </>
     )
 }
-//============================== PHẦN SHOW THANH TÌM KIÉM
-function SearchBar() {
-    return (
-        <div className="flex my-5 w-[75%] md:w-[50%]">
-            <input type="text" className="w-full px-5 rounded-l-md py-2 outline-none" placeholder="Seach Phone....." />
-            <button type="button">
-                <i className="bi bi-search py-2 bg-mainCL text-white px-3 rounded-r-md"></i>
-            </button>
-        </div>
-    )
-}
+
 //============================== PHẦN SHOW PAGINATION
 function Pagination() {
     return (
