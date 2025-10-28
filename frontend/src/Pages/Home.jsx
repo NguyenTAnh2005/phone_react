@@ -48,7 +48,7 @@ export function Home() {
                     classTail={"mt-10 capitalize text-mainCL font-semibold text-2xl rounded-xl px-3 py-1 border border-mainCL"}
                 />
             </div>
-            <div className="flex flex-col items-center bg-black pt-5 pb-10 px-5">
+            <div className="flex flex-col items-center bg-black  p-5 md:p-10 xl:p-20">
                 <p className="text-white text-[40px] font-semibold capitalize mt-10 text-center">
                     Special Deals
                 </p>

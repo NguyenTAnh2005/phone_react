@@ -6,7 +6,7 @@ import { list_nav } from "./StaticData/header_data";
 
 export function Header() {
     const [expand, setExpand] = useState(false);
-    const [isLogIn, setIsLogIn] = useState(false);
+    const [isLogIn, setIsLogIn] = useState(true);
     function changeMode() {
         setExpand(!expand);
     }
