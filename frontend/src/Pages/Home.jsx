@@ -55,7 +55,7 @@ export function Home() {
                 <p className="text-[20px] text-white text-center">
                     Limited time offers - Don't miss out!
                 </p>
-                <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 px-20">
+                <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 px-2">
                     {copy__deals}
                 </div>
                 <ButtonActiveLink
