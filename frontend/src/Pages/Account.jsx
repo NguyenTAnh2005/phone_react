@@ -12,8 +12,6 @@ const tabComponents = {
     'info1': Info1,
     'info2': Info2,
     'address': Address,
-    'favorite': Favorite,
-    'cart': Cart,
     'orders': Orders
 };
 
