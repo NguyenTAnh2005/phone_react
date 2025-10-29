@@ -1,15 +1,19 @@
 import { useState } from "react";
 
-
-export function Input({ id_input, type, label, placeholder, cls_icon = "", disable = false }) {
+export function Input({ id_input, name, type, label, placeholder, cls_icon = "", disable = false, value, onChange }) {
     return (
         <div className=" flex flex-col w-full">
             <label htmlFor={id_input} className="text-black font-semibold mb-1 capitalize -translate-x-2">{label}</label>
             <div className="flex relative">
                 <input
-                    type={type} id={id_input} name={id_input} placeholder={placeholder}
-                    className="w-full border border-1 border-gray-400 rounded-md py-1 focus:outline-none indent-[40px] text-gray-600"
+                    type={type}
+                    id={id_input}
+                    name={name}
+                    placeholder={placeholder}
+                    value={value}
+                    onChange={onChange}
                     disabled={disable}
+                    className="w-full border border-1 border-gray-400 rounded-md py-1 focus:outline-none indent-[40px] text-gray-600"
                 />
                 <i className={`${cls_icon} absolute text-mainCL text-xl rounded-md top-0.5 left-0 translate-x-[50%] `}></i>
             </div>
@@ -18,22 +22,25 @@ export function Input({ id_input, type, label, placeholder, cls_icon = "", disab
 }
 
 
-export function InputPassword({ label_content, id_input, disable = false }) {
+export function InputPassword({ label, placeholder, name, id_input, disable = false, value, onChange }) {
     const [showPass, setShowPass] = useState(false);
     function changeModePass() {
         return setShowPass(!showPass);
     }
     return (
         <div className=" flex flex-col relative">
-            <label htmlFor={id_input} className="text-black font-semibold capitalize mb-1 -translate-x-2">{label_content}</label>
+            <label htmlFor={id_input} className="text-black font-semibold capitalize mb-1 -translate-x-2">{label}</label>
             <div className="flex relative">
-                <input type={showPass ? "text" : "password"}
-                    id={id_input} name={id_input} disabled={disable}
-                    placeholder={`Enter your ${label_content}`}
-                    className="w-[100%] border border-1 border-gray-400
-                        rounded-md py-1 focus:outline-none indent-[40px] text-gray-600" />
-                <i className="bi bi-lock absolute text-mainCL text-[20px] 
-                    rounded-md top-0.5 left-0 translate-x-[50%] "></i>
+                <input
+                    type={showPass ? "text" : "password"}
+                    id={id_input}
+                    name={name}
+                    disabled={disable}
+                    value={value}
+                    placeholder={placeholder}
+                    onChange={onChange}
+                    className="w-[100%] border border-1 border-gray-400 rounded-md py-1 focus:outline-none indent-[40px] text-gray-600" />
+                <i className="bi bi-lock absolute text-mainCL text-[20px] rounded-md top-0.5 left-0 translate-x-[50%] "></i>
             </div>
             <i onClick={changeModePass}
                 className={` text-mainCL text-[18px] absolute top-[50%] right-[2%] 
@@ -54,17 +61,19 @@ export function Or() {
     )
 }
 
-export function TextArea({ type, label_content, id_input, cls_icon, placeholder }) {
+export function TextArea({ type, name, label_content, id_input, cls_icon, placeholder, value, disable = false, onChange }) {
     return (
         <div className=" flex flex-col">
             <label htmlFor={id_input} className="text-black font-semibold mb-1 capitalize -translate-x-2">{label_content}</label>
             <div className="flex relative">
-                <textarea type={type} id={id_input} name={id_input}
+                <textarea type={type}
+                    id={id_input}
+                    name={name}
                     placeholder={placeholder}
-                    className="w-full border border-1 border-gray-400
-                        rounded-md py-1 focus:outline-none indent-[40px] text-gray-600" />
-                <i className={`${cls_icon} absolute text-mainCL text-[20px] 
-                    rounded-md top-0.5 left-0 translate-x-[50%] `}></i>
+                    value={value}
+                    onChange={onChange}
+                    className="w-full border border-1 border-gray-400 rounded-md py-1 focus:outline-none indent-[40px] text-gray-600" />
+                <i className={`${cls_icon} absolute text-mainCL text-[20px] rounded-md top-0.5 left-0 translate-x-[50%] `}></i>
             </div>
         </div>
     )

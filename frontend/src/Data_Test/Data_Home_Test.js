@@ -70,7 +70,7 @@ export const eg_account = {
     account_first_name: "Tuan Anh",
     account_last_name: "Nguyen",
     account_email: "23050118@student.bdu.edu.vn",
-    account_gender: "Male",
+    account_gender: true,
     account_date: "06/10/2005",
     account_password: "123456789",
     account_access: "admin"

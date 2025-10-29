@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Input, InputPassword } from "../../Components/input";
+import { eg_account } from "../../Data_Test/Data_Home_Test";
 
-export function Info2() {
+export function Info2({ account = eg_account }) {
     const [access, setAccess] = useState(false);
     const [letChange2, setLetChange2] = useState(false)
     return (
@@ -21,8 +22,12 @@ export function Info2() {
                 </div>
             ) : (
                 <form className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <Input type={"email"} label={"Email"} id_input={"info2_ip1"} placeholder={""} disable={!letChange2} cls_icon="bi bi-envelope" />
-                    <InputPassword type={"text"} label_content={"Password"} id_input={"info2_ip2"} placeholder={""} disable={!letChange2} />
+                    <Input
+                        type={"email"} label={"Email"} id_input={"info2_ip1"}
+                        placeholder={""} disable={!letChange2} cls_icon="bi bi-envelope"
+                        value={account.account_email}
+                    />
+                    <InputPassword type={"text"} label_content={"Password"} id_input={"info2_ip2"} placeholder={""} disable={!letChange2} value={account.account_password} />
                     <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mt-6 col-span-full">
                         {!letChange2 ? (
                             <button

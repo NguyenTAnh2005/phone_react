@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { Input } from "../../Components/input.jsx";
+import { eg_account } from "../../Data_Test/Data_Home_Test.js"
+import { getStringGender, getDate } from "../../utils/utils.jsx";
 
-export function Info1() {
+export function Info1({ account = eg_account }) {
     const [letChange, setLetChange] = useState(false);
 
     return (
@@ -12,15 +14,18 @@ export function Info1() {
             <form action="" method="POST" className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <Input id_input={"info1_ip1"} label={"First name"} type={"text"}
                     placeholder={""} disable={!letChange} cls_icon="bi bi-person-vcard"
+                    value={account.account_first_name}
                 />
                 <Input id_input={"info1_ip2"} label={"Last name"} type={"text"}
                     placeholder={""} disable={!letChange} cls_icon="bi bi-person-vcard"
+                    value={account.account_last_name}
                 />
-                <SelectGender id_input={"info1_ip3"} value1="Male" id_value1="info1_ip3_1"
-                    value2="Female" id_value2="info1_ip3_2" label={"Gender"} disable={!letChange}
+                <SelectGender id_input={"info1_ip3"} id_value1="info1_ip3_1" value1={getStringGender(account.account_gender)}
+                    value2={getStringGender(!account.account_gender)} id_value2="info1_ip3_2" label={"Gender"} disable={!letChange}
                 />
                 <Input id_input={"info1_ip4"} label={"Birth"} type={"date"}
                     placeholder={""} disable={!letChange} cls_icon="bi bi-cake2"
+                    value={getDate(account.account_date)}
                 />
                 <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mt-6 col-span-full">
                     {!letChange ? (
@@ -65,7 +70,7 @@ export function SelectGender({ id_input, value1, id_value1, value2, id_value2, p
                 className="outline-none border border-gray-400 py-2 px-3 rounded-md focus:border-mainCL focus:ring-1 focus:ring-mainCL transition-colors duration-200 disabled:bg-gray-100 disabled:cursor-not-allowed"
                 disabled={disable}
             >
-                <option value={id_value1}>{value1}</option>
+                <option value={id_value1} default>{value1}</option>
                 <option value={id_value2}>{value2}</option>
             </select>
         </div>

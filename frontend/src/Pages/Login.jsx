@@ -3,23 +3,51 @@ import { Link } from "react-router-dom";
 import { Input, InputPassword, Or } from "../Components/input";
 
 export function LogIn() {
+    const [formData, setFormData] = useState({
+        email: "",
+        password: "",
+    });
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData((prev) => ({ ...prev, [name]: value }))
+    };
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        console.log("Form DATA LOG IN: ", formData);
+        alert("Xem thông tin input của form khi được gửi ở F12 nhé em! Chưa có Backend á!")
+    }
     return (
         <div className="h-screen flex items-center animate__animated animate__fadeIn">
-            <form action={"POST"} className="border border-gray-300 border-1 rounded-xl bg-white text-gray-500 w-full max-w-[400px] px-10 py-10 text-[16px] mx-auto ">
+            <form
+                onSubmit={handleSubmit}
+                className="border border-gray-300 border-1 rounded-xl bg-white text-gray-500 w-full max-w-[400px] px-10 py-10 text-base mx-auto ">
                 <div className="text-center mb-7">
-                    <p className="text-black text-[28px] font-bold">
+                    <p className="text-black text-3xl font-bold">
                         Welcome Back!
                     </p>
-                    <p>
-                        Sign in to continue to your account
-                    </p>
+                    <p> Sign in to continue to your account </p>
                 </div>
                 <div className="mb-4">
-                    <Input type={"email"} label={"Email address"}
-                        placeholder={"Enter your email address"} id={"li_ip1"} cls_icon={"bi bi-envelope"} />
+                    <Input
+                        name={"email"}
+                        type={"email"}
+                        label={"Email address"}
+                        placeholder={"Nôn email ra đây ..."}
+                        id={"li_ip1"}
+                        cls_icon={"bi bi-envelope"}
+                        value={formData.email}
+                        onChange={handleChange}
+                    />
                 </div>
                 <div className="mb-4">
-                    <InputPassword label_content={"password"} id_input={"li_ip2"} />
+                    <InputPassword
+                        name={"password"}
+                        label={"password"}
+                        placeholder={"Nhập mật khẩu ...."}
+                        id_input={"li_ip2"}
+                        value={formData.password}
+                        onChange={handleChange}
+                    />
                 </div>
 
                 <div className="text-xs font-semibold text-mainCL text-end capitalize">

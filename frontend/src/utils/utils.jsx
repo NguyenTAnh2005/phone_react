@@ -19,3 +19,16 @@ export function priceFormatter(price) {
     const price_formatted = str_arr.join("");
     return `${price_formatted}`;
 }
+
+// Hàm lấy giá trị string giới tính  TRUE == NAM ,  False==Nữ
+
+export function getStringGender(gender) {
+    return gender ? "Nam" : "Nữ"
+}
+
+// Hàm lấy string date và trả về dl đưa len Input
+
+export function getDate(dateStr) {
+    const [day, month, year] = dateStr.split("/");
+    return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`
+}
