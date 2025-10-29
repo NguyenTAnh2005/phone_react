@@ -39,14 +39,15 @@ export function Phones() {
                  ${!expand ? "opacity-0 pointer-events-none" : "opacity-40 pointer-events-auto "}`}>
                 </div>
                 { /*==============================Phần filter  */}
-                <div className={`absolute w-auto ml-3
+                <div className={`absolute w-auto mx-3
                 ${!expand ? "pointer-events-none" : "pointer-events-auto "}`}>
                     <Filter expand={expand} changeModeExpand={changeModeExpand} />
                 </div>
 
                 {/* ============================ PHẦN ICON BỘ LỌC  */}
-                <div className={`bg-mainCL text-white text-xl p-0 py-1 px-2 z-10 rounded-full fixed top-25 left-5 cursor-pointer
-                transition-all ease-in-out duration-500 ${expand ? " opacity-0 -translate-x-full " : "opacity-100 translate-x-0 "}`}>
+                <div
+                    className={`bg-mainCL text-white text-xl p-0 py-1 px-2 z-10 rounded-full fixed top-25 left-5 cursor-pointer scrollbar-hide
+                                transition-all ease-in-out duration-500 ${expand ? " opacity-0 -translate-x-full " : "opacity-100 translate-x-0 "}`}>
                     <i className="bi bi-funnel-fill" onClick={changeModeExpand}>Filter</i>
                 </div>
                 {/* ============================ PHẦN PAGINATION  */}
@@ -78,14 +79,14 @@ function Filter({ expand, changeModeExpand }) {
     return (
         <>
             <div className={`w-full transition-all ease-in-out duration-500 ${expand ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-full"}`}>
-                <div className="flex justify-between bg-mainCL text-white w-full px-2 text-[20px] font-semibold items-center rounded-t-md">
+                <div className="flex justify-between bg-mainCL text-white w-full px-2 text-xl font-semibold items-center rounded-t-md">
                     <i className="bi bi-funnel"></i>
-                    <span className="text-[24px] font-semibold">Filter</span>
+                    <span className="text-2xl font-semibold">Filter</span>
                     <div onClick={changeModeExpand} className={`transition-transform duration-300 ease-linear rotate-90`}>
                         <i className="bi bi-chevron-down"></i>
                     </div>
                 </div>
-                <div className={` flex flex-col max-h-[600px] overflow-y-scroll  bg-white rounded-b-lg border-[1px] border-gray-300`}>
+                <div className={` flex flex-wrap justify-start gap-5 max-h-[600px] overflow-y-scroll  bg-white rounded-b-lg border-[1px] border-gray-300`}>
                     <div className="mt-5 px-2">
                         <FilterPart arr={company} title={"Brand"} type="company" cls_icon={"bi bi-buildings-fill"} />
                     </div>
@@ -104,7 +105,7 @@ function Filter({ expand, changeModeExpand }) {
                     <div className="mt-5 px-2">
                         <FilterPart arr={support} title={"Suport"} type="support" cls_icon={"bi bi-plus-circle-fill"} />
                     </div>
-                    <div className="mt-5 px-2">
+                    <div className="mt-5 px-4">
                         <FilterPartPrice title={"Price"} cls_icon={"bi bi-cash-coin"} />
                     </div>
                     <button type="button" className="mt-5 mb-10 bg-mainCL text-white text-[20px] py-1 w-[90%] mx-auto rounded-md">
@@ -166,12 +167,12 @@ function FilterPartPrice({ title, cls_icon }) {
                 <Input
                     type={"number"} id_input={"ft_a7_ip1"} label={"Min Price"}
                     cls_icon="bi bi-coin" placeholder={"Input min price"}
-                    disable={true} valueInput=""
+                    disable={false} valueInput=""
                 />
                 <Input
                     type={"number"} id_input={"ft_a7_ip2"} label={"Max Price"}
                     cls_icon="bi bi-coin" placeholder={"Input max price"}
-                    disable={true} valueInput=""
+                    disable={false} valueInput=""
                 />
             </div>
         </>

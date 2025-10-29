@@ -72,6 +72,42 @@ export const eg_account = {
     account_email: "23050118@student.bdu.edu.vn",
     account_gender: "Male",
     account_date: "06/10/2005",
-    account_password: "**********",
+    account_password: "123456789",
     account_access: "admin"
 }
+
+export const eg_order_stats = {
+    order_count: 2,
+    money_count: 10000000
+}
+export const eg_hotline = [
+    {
+        hotline_id: "hl_001",
+        hotline_name: "Nguyễn Tuấn Anh",
+        hotline_phonenumber: "0328884320",
+        hotline_address: "Tổ 6, thôn 7, xã Cẩm Xuyên, tỉnh Hà Tĩnh 1",
+        hotline_default: true
+    },
+    {
+        hotline_id: "hl_002",
+        hotline_name: "Lê Ngọc Sang",
+        hotline_phonenumber: "0328884320",
+        hotline_address: "Tổ 6, thôn 7, xã Cẩm Xuyên, tỉnh Hà Tĩnh 2",
+        hotline_default: false
+    },
+    {
+        hotline_id: "hl_003",
+        hotline_name: "Nguyễn Mạnh Phát",
+        hotline_phonenumber: "0328884320",
+        hotline_address: "AddreTổ 6, thôn 7, xã Cẩm Xuyên, tỉnh Hà Tĩnhss 3",
+        hotline_default: false
+    },
+    {
+        hotline_id: "hl_004",
+        hotline_name: "Lê Đình Tuyển",
+        hotline_phonenumber: "0328884320",
+        hotline_address: "Tổ 6, thôn 7, xã Cẩm Xuyên, tỉnh Hà Tĩnh 4",
+        hotline_default: false
+    }
+];
+

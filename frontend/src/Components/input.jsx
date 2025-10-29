@@ -1,21 +1,15 @@
 import { useState } from "react";
 
 
-export function Input({ id_input, type, label, placeholder, cls_icon = "", disable = false, valueInput: defaultValue = "" }) {
-    const [valueInput, setValueInput] = useState(defaultValue)
-    function handleChangeValue(e) {
-        setValueInput(e.target.value);
-    }
+export function Input({ id_input, type, label, placeholder, cls_icon = "", disable = false }) {
     return (
-        <div className=" flex flex-col">
+        <div className=" flex flex-col w-full">
             <label htmlFor={id_input} className="text-black font-semibold mb-1 capitalize -translate-x-2">{label}</label>
             <div className="flex relative">
                 <input
-                    type={type} id={id_input} name={id_input}
-                    value={valueInput} placeholder={placeholder}
+                    type={type} id={id_input} name={id_input} placeholder={placeholder}
                     className="w-full border border-1 border-gray-400 rounded-md py-1 focus:outline-none indent-[40px] text-gray-600"
                     disabled={disable}
-                    onChange={handleChangeValue}
                 />
                 <i className={`${cls_icon} absolute text-mainCL text-xl rounded-md top-0.5 left-0 translate-x-[50%] `}></i>
             </div>
@@ -24,7 +18,7 @@ export function Input({ id_input, type, label, placeholder, cls_icon = "", disab
 }
 
 
-export function InputPassword({ label_content, id_input }) {
+export function InputPassword({ label_content, id_input, disable = false }) {
     const [showPass, setShowPass] = useState(false);
     function changeModePass() {
         return setShowPass(!showPass);
@@ -34,7 +28,7 @@ export function InputPassword({ label_content, id_input }) {
             <label htmlFor={id_input} className="text-black font-semibold capitalize mb-1 -translate-x-2">{label_content}</label>
             <div className="flex relative">
                 <input type={showPass ? "text" : "password"}
-                    id={id_input} name={id_input}
+                    id={id_input} name={id_input} disabled={disable}
                     placeholder={`Enter your ${label_content}`}
                     className="w-[100%] border border-1 border-gray-400
                         rounded-md py-1 focus:outline-none indent-[40px] text-gray-600" />

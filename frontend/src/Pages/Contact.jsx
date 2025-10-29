@@ -1,7 +1,7 @@
 import { TextArea, Input } from "../Components/input"
 export function Contact() {
     return (
-        <div className="animate__animated animate__fadeIn flex flex-col items-center justify-center w-[90%] mx-auto">
+        <div className="animate__animated animate__fadeIn flex flex-col items-center justify-center px-[5%] bg-gray-50">
             <p className="text-[50px] font-semibold text-mainCL mb-10">Contacs Us</p>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-5 lg:gap-10 xl:gap-16 mb-10 px-3 content-between w-full">
                 <InfoUs cls_icon={"bi bi-envelope-at"} title={"Email Us"} content_1={"23050118@student.bdu.edu.vn"} content_2={"aovFF@garena.com"} />

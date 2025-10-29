@@ -12,6 +12,7 @@ import { Contact } from './Pages/Contact'
 import { LogIn } from './Pages/Login'
 import { SignUp } from './Pages/Signup'
 import { ForgotPassword } from './Pages/Forgotpassword'
+import { Account } from './Pages/Account'
 /* Import for router DOM*/
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom'
 
@@ -28,6 +29,7 @@ function AppContent() {
         <Route path='/Phones' element={<Phones />} />
         <Route path='/Articles' element={<Articles />} />
         <Route path='/Contact' element={<Contact />} />
+        <Route path='/Account' element={<Account />} />
         <Route path='/log-in' element={<LogIn />} />
         <Route path='/sign-up' element={<SignUp />} />
         <Route path='/forgot-password' element={<ForgotPassword />} />

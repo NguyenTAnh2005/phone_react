@@ -8,10 +8,10 @@ export function ButtonActiveLink({ link, content, classTail }) {
         </button>
     );
 }
-export function ButtonFormSubmit() {
+export function ButtonFormSubmit({ content, classTail }) {
     return (
-        <button className={`bg-mainCL mt-5 text-white text-center py-2 rounded-xl text-${fs_title} font-medium`}>
-
+        <button type="submit" className={`${classTail}`}>
+            {content}
         </button>
     )
 }
