@@ -93,8 +93,6 @@ function Account_NavToggle({ activeTab, setActiveTab }) {
         { key: 'info1', label: 'Thông tin cá nhân' },
         { key: 'info2', label: 'Thông tin bảo mật' },
         { key: 'address', label: 'Sổ địa chỉ' },
-        { key: 'favorite', label: "Danh sách yêu thích" },
-        { key: 'cart', label: "Giỏ hàng" },
         { key: 'orders', label: "Đơn hàng" }
         // ...
     ];
