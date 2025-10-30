@@ -7,15 +7,10 @@ import { Link } from "react-router-dom"
 import { scrollToTopSmooth } from "../utils/utils";
 import { eg_phone, eg_deal, eg_article } from "../Data_Test/Data_Home_Test"
 import { ButtonActiveLink } from "../Components/Button";
+import { data_service } from "./StaticData/Home_data";
 
 export function Home() {
-    //Data co dinh 
-    const data_service = [
-        { id: "ser_1", cls_icon: "bi bi-patch-check", title: "Honest Service", desc: "We value transparency and trust" },
-        { id: "ser_2", cls_icon: "bi bi-truck", title: "Free Delivery", desc: "On orders over 5.000.000 đ" },
-        { id: "ser_3", cls_icon: "bi bi-shield-check", title: "Security Payment", desc: "100% secure transaction" },
-        { id: "ser_4", cls_icon: "bi bi-headset", title: "24/7 Support", desc: "Dedicated support team" },
-    ]
+
     const base_link = "https://res.cloudinary.com/df5mtvzkn/image/upload/q_auto,f_auto/WEB_SELL_PHONE__PROJECT/TEST/Test_IMG/"
     const copy__products = [];
     const copy__deals = [];
@@ -29,56 +24,59 @@ export function Home() {
     //
 
     return (
-        <div className="animate__animated animate__fadeIn">
-            <div className="p-5 md:p-10  bg-gray-50">
-                <Home_Banner services={data_service} />
-            </div>
-            <div className="flex flex-col items-center bg-gray-50 p-5 md:p-10 xl:p-20">
-                <p className="text-black text-[40px] font-semibold capitalize text-center">
-                    Popular Phones
-                </p>
-                <p className="text-[20px] text-gray-600 text-center">
-                    Discover our best-selling phones
-                </p>
-                <div className="mt-10 px-5 grid grid-cols-1 xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 gap-x-4 gap-y-4">
-                    {copy__products}
+        <>
+            {scrollToTopSmooth}
+            <div className="animate__animated animate__fadeIn">
+                <div className="px-3 py-5 md:px-5 md:py-10  bg-gray-50">
+                    <Home_Banner services={data_service} />
                 </div>
-                <ButtonActiveLink
-                    content={"View All Phones"} link={"/Phones"}
-                    classTail={"mt-10 capitalize text-mainCL font-semibold text-2xl rounded-xl px-3 py-1 border border-mainCL"}
-                />
-            </div>
-            <div className="flex flex-col items-center bg-black  p-5 md:p-10 xl:p-20">
-                <p className="text-white text-[40px] font-semibold capitalize mt-10 text-center">
-                    Special Deals
-                </p>
-                <p className="text-[20px] text-white text-center">
-                    Limited time offers - Don't miss out!
-                </p>
-                <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 px-2">
-                    {copy__deals}
+                <div className="flex flex-col items-center bg-gray-50 p-5 md:p-10 xl:p-20">
+                    <p className="text-black text-[40px] font-semibold capitalize text-center">
+                        Các điện thoại nổi bật
+                    </p>
+                    <p className="text-[20px] text-gray-600 text-center">
+                        Khám phá những chiếc điện thoại bán chạy nhất của chúng tôi
+                    </p>
+                    <div className="mt-10 px-5 grid grid-cols-1 xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 gap-x-4 gap-y-4">
+                        {copy__products}
+                    </div>
+                    <ButtonActiveLink
+                        content={"Xem tất cả điện thoại"} link={"/Phones"}
+                        classTail={"mt-10 capitalize text-mainCL font-semibold text-2xl rounded-xl px-3 py-1 border border-mainCL"}
+                    />
                 </div>
-                <ButtonActiveLink
-                    content={"View All Deals"} link={"/Deals"}
-                    classTail={"mt-10 capitalize text-mainCL font-semibold text-2xl rounded-xl px-3 py-1 border border-mainCL"}
-                />
-            </div>
-            <div className="flex flex-col items-center bg-white pt-5 pb-10 px-5">
-                <p className="text-black text-[40px] font-semibold capitalize mt-10 text-center">
-                    Latest Technology Article
-                </p>
-                <p className="text-[20px] text-gray-600 text-center">
-                    Stay updated with tech news and reviews
-                </p>
-                <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-7 gap-y-7">
-                    {copy__articles}
+                <div className="flex flex-col items-center bg-black  p-5 md:p-10 xl:p-20">
+                    <p className="text-white text-[40px] font-semibold capitalize mt-10 text-center">
+                        Giảm giá đặc biệt
+                    </p>
+                    <p className="text-[20px] text-white text-center">
+                        Số lượng có hạn!! - Đừng bỏ lỡ
+                    </p>
+                    <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 px-2">
+                        {copy__deals}
+                    </div>
+                    <ButtonActiveLink
+                        content={"Xem tất cả"} link={"/Deals"}
+                        classTail={"mt-10 capitalize text-mainCL font-semibold text-2xl rounded-xl px-3 py-1 border border-mainCL"}
+                    />
                 </div>
-                <ButtonActiveLink
-                    content={"View All Articles"} link={"/Articles"}
-                    classTail={"mt-10 capitalize text-mainCL font-semibold text-2xl rounded-xl px-3 py-1 border border-mainCL"}
-                />
+                <div className="flex flex-col items-center bg-white pt-5 pb-10 px-5">
+                    <p className="text-black text-[40px] font-semibold capitalize mt-10 text-center">
+                        Các bài viết mới nhất
+                    </p>
+                    <p className="text-[20px] text-gray-600 text-center">
+                        Cập nhật tin tức và đánh giá công nghệ
+                    </p>
+                    <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-7 gap-y-7">
+                        {copy__articles}
+                    </div>
+                    <ButtonActiveLink
+                        content={"Xem tất cả"} link={"/Articles"}
+                        classTail={"mt-10 capitalize text-mainCL font-semibold text-2xl rounded-xl px-3 py-1 border border-mainCL"}
+                    />
+                </div>
             </div>
-        </div>
+        </>
     )
 }
 
@@ -89,11 +87,11 @@ function Home_Banner({ services }) {
     return (
         <div className="flex flex-col lg:flex-row md:items-center">
             <div className="flex flex-col w-full lg:w-[60%]">
-                <p className="text-black text-center text-[45px] font-medium mb-1">
-                    Discover Your Perfect Phone
+                <p className="text-black text-center text-4xl font-medium mb-1">
+                    Khám phá điện thoại hoàn hảo của bạn
                 </p>
                 <p className="text-gray-600 text-center text-[16px] mb-10">
-                    Get the latest smartphones with exclusive deals and fast delivery. Premium quality at unbeatable prices.
+                    Sở hữu những chiếc điện thoại thông minh mới nhất với ưu đãi độc quyền và giao hàng nhanh chóng. Chất lượng cao cấp với mức giá cạnh tranh nhất.
                 </p>
                 <div className=" grid gap-5 mx-5 grid-cols-2 md:grid-cols-4">
                     {copy_services}
@@ -108,10 +106,10 @@ function Home_Banner({ services }) {
 
 function Service_Item({ service }) {
     return (
-        <div className="flex flex-col bg-white items-center p-1 rounded-xl border border-gray-300 hover:shadow-mainCL hover:shadow-md hover:border-mainCL  hover:-translate-y-1 transition-all duration-300 ease-linear">
-            <i className={`${service.cls_icon} text-[25px] text-mainCL`}></i>
-            <p className="text-[18px] font-semibold text-center">{service.title}</p>
-            <p className="text-gray-600 text-[12px] text-center">{service.desc}</p>
+        <div className="flex flex-col bg-white items-center p-2 rounded-xl border border-gray-300 hover:shadow-mainCL hover:shadow-md hover:border-mainCL  hover:-translate-y-1 transition-all duration-300 ease-linear">
+            <i className={`${service.cls_icon} text-2xl text-mainCL`}></i>
+            <p className="text-base font-semibold text-center">{service.title}</p>
+            <p className="text-gray-600 text-xs text-center">{service.desc}</p>
         </div>
     )
 }

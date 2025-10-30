@@ -20,15 +20,15 @@ export function SubscribleForm() {
     return (
         <div className="grid grid-cols-1 lg:grid-cols-2 py-5 lg:py-12 bg-mainCL text-white px-10 lg:px-0">
             <div className="flex flex-col items-center lg:my-auto">
-                <span className="lg:text-4xl text-3xl text-center font-sans font-bold">Subscribe to Our Newsletter</span>
-                <span className="lg:text-lg text-base text-center">Get the latest deals and tech news delivered to your inbox</span>
+                <span className="lg:text-4xl text-3xl text-center font-sans font-bold">Theo dõi chúng tôi</span>
+                <span className="lg:text-lg text-base text-center mt-2">Nhận thông báo để cập nhật các thông tin mới nhất!</span>
             </div>
             <div className="flex flex-col items-center gap-5 mt-5 lg:flex-row lg:gap-10 lg:mt-0">
-                <input type="email" placeholder="Enter your email"
+                <input type="email" placeholder="Nhập email của bạn"
                     className="border border-gray-300 rounded-lg  w-72 sm:w-80 lg:w-96 py-2.5 pl-2.5 text-black focus:outline-none" />
                 <button className="hover:bg-white hover:text-mainCL rounded-xl text-xl xl:text-2xl px-6 py-2 font-medium
                  bg-mainCL text-white outline outline-1 outline-white transition-all ease-linear duration-300">
-                    Subcrible
+                    Theo dõi
                 </button>
             </div>
         </div>
@@ -67,7 +67,7 @@ function Hotline_item({ link, cls_icon }) {
 function List_info({ list, title }) {
     const copy_list = list.map(i => (
         <li key={i.id} className="capitalize text-gray-400 text-[15px] cursor-pointer hover:text-white transition-colors ease-linear duration-300">
-            <a>{i.content}</a>
+            <a>{i.name}</a>
         </li>
     ));
 

@@ -58,7 +58,7 @@ function NavItem({ nav_item, location }) {
     return (
         <li onClick={scrollToTopSmooth} className={`text-base text-gray-400 font-medium relative group hover:text-mainCL transition-colors duration-300 ease-linear ${location.pathname === `/${nav_item.content}` && "text-mainCL"}`}>
             <Link to={"/" + nav_item.content}>
-                {nav_item.content}
+                {nav_item.name}
             </Link >
             <span className=" hidden lg:block absolute  h-0.5 bg-mainCL translate-y-3 w-0 group-hover:w-full group-hover:-translate-x-[0%] z-10 bottom-0 left-0 translate-x-[50%] transition-all ease-linear duration-400">
             </span>
@@ -69,18 +69,18 @@ function NavActions({ cls_name = "" }) {
     return (
         <div className={cls_name}>
             <Link to={"/Phones"}>
-                <Action id="act_search" content="Search" clsicon="bi bi-search" />
+                <Action id="act_search" content="Tìm kiếm" clsicon="bi bi-search" />
             </Link>
             <Link to={"/Cart"}>
-                <Action id="act_cart" content="Cart" clsicon="bi bi-cart-check" />
+                <Action id="act_cart" content="Giỏ hàng" clsicon="bi bi-cart-check" />
             </Link>
         </div>
     )
 }
-function Action({ id, content, clsicon }) {
+function Action({ id, content, clsicon, }) {
     return (
         <button id={id} className="flex flex-col xl:flex-row justify-center xl:gap-2 gap-0 items-center text-mainCL group text-[16px]
-        hover:text-white rounded-lg hover:pr-6 hover:bg-mainCL hover:shadow-lg hover:shadow-mainCL transition-all duration-400 ease-linear px-2 py-1">
+        hover:text-white rounded-lg hover:pr-7 hover:bg-mainCL hover:shadow-lg hover:shadow-mainCL transition-all duration-400 ease-linear px-2 py-1">
             <i className={clsicon + "  align-middle"}></i>
             <span className="hidden text-xl group-hover:block transition-all duration-400 ease-linear">{content}</span>
         </button>
