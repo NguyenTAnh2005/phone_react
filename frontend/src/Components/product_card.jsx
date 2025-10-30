@@ -77,10 +77,10 @@ export function CartProduct({ product, baselink }) {
                     <p className="text-base font-bold mb-1">
                         {product.phone_name} - {product.variant_ph_ram}GB/{product.variant_ph_rom}GB
                     </p>
-                    <p className="text-sm text-gray-600 font-thin">
+                    <p className="text-sm text-gray-600 font-semibold">
                         {product.phone_desc}
                     </p>
-                    <div className="flex justify-between items-center my-2">
+                    <div className="flex justify-between items-center my-2 px-2">
                         <p className="text-sm font-light text-gray-500">
                             {product.variant_ph_color}
                         </p>
