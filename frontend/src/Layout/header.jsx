@@ -71,7 +71,7 @@ function NavActions({ cls_name = "" }) {
             <Link to={"/Phones"}>
                 <Action id="act_search" content="Search" clsicon="bi bi-search" />
             </Link>
-            <Link>
+            <Link to={"/Cart"}>
                 <Action id="act_cart" content="Cart" clsicon="bi bi-cart-check" />
             </Link>
         </div>

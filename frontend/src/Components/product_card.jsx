@@ -57,6 +57,42 @@ export function ProductCard({ product, baselink, max_width = "350px", fs_title =
     )
 }
 
-function CartProduct({ product }) {
+export function CartProduct({ product, baselink }) {
+    return (
+        <div
+            className="flex bg-white justify-start items-start rounded-md shadow-md shadow-gray-300 border p-1 gap-1
+                         border-gray-300 cursor-pointer hover:scale-[101%] hover:shadow-mainCL transition-all
+                         duration-300 ease-in-out "
+        >
+            <input type="checkbox" />
+            <div className="flex items-center gap-2 p-2">
+                <picture className="max-w-24">
+                    <img
+                        className="rounded-md"
+                        src={`${baselink}${product.variant_img}`}
+                        alt={`${product.phone_name} - ${product.variant_ph_ram}GB/${product.variant_ph_rom}GB`}
+                    />
+                </picture>
+                <div className="flex flex-col">
+                    <p className="text-base font-bold mb-1">
+                        {product.phone_name} - {product.variant_ph_ram}GB/{product.variant_ph_rom}GB
+                    </p>
+                    <p className="text-sm text-gray-600 font-thin">
+                        {product.phone_desc}
+                    </p>
+                    <div className="flex justify-between items-center my-2">
+                        <p className="text-sm font-light text-gray-500">
+                            {product.variant_ph_color}
+                        </p>
+                        <p className="text-base text-mainCL font-semibold">
+                            {product.variant_ph_final_price
+                                ? priceFormatter(product.variant_ph_final_price)
+                                : priceFormatter(product.variant_ph_new_price)} đ
+                        </p>
+                    </div>
 
+                </div>
+            </div>
+        </div>
+    )
 }

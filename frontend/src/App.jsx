@@ -32,6 +32,7 @@ function AppContent() {
         <Route path='/Articles' element={<Articles />} />
         <Route path='/Contact' element={<Contact />} />
         <Route path='/Account' element={<Account />} />
+        <Route path='/Cart' element={<Cart />} />
         <Route path='/ProductDetails' element={<ProductDetails />} />
         <Route path='/log-in' element={<LogIn />} />
         <Route path='/sign-up' element={<SignUp />} />

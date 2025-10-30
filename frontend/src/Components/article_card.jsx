@@ -17,7 +17,7 @@ export function ArticleCard({ article, baselink, max_width = "450px", fs_title =
                     <i className={`bi bi-arrow-right-short text-${fs_title} group-hover:translate-x-1 transition-all duration-300 ease-linear`}></i>
                 </div>
             </div>
-
         </div>
     )
 }
+
