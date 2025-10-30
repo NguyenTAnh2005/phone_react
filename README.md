@@ -31,7 +31,7 @@ Chưa có dữ liệu chính thức và chính xác
 ---
 
 ## 📂 Cấu trúc thư mục
-
+```bash
 📦 frontend
 ├── 📁 public                  # File tĩnh (index.html, favicon, ảnh, v.v.)
 ├── 📁 src                     # Mã nguồn chính của ứng dụng
