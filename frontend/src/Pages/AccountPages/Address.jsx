@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Input, TextArea } from "../../Components/input";
-import { ModalYesNo } from "../../Components/modal";
+import { Modal } from "../../Components/modal";
 import { eg_hotline } from "../../Data_Test/Data_Home_Test";
 
 export function Address() {
@@ -20,6 +20,7 @@ export function Address() {
         setOpenUpdate(false);
     };
 
+
     const arr_copy_address = eg_hotline.map(hl => {
         return <AddressItem isDefault={hl.hotline_default} address={hl} key={hl.hotline_id} handleOpenUpdate={() => { handleOpenUpdate(hl) }} />
     })
@@ -35,79 +36,106 @@ export function Address() {
                     {arr_copy_address}
                 </div>
 
-                <ModalYesNo
+                <Modal
                     isOpen={openAdd}
                     title={"Thêm địa chỉ mới"}
                     onClose={handleCloseModal}
-                    jsxContent={<AddAddress />}
-                    func_yes={() => { }}
+                    jsxContent={<AddressForm mode="add" handleCloseModal={handleCloseModal} />}
                 />
-                <ModalYesNo
+                <Modal
                     isOpen={openUpdate}
                     title={"Chỉnh sửa địa chỉ"}
                     onClose={handleCloseModal}
-                    jsxContent={<UpdateAddress address={addressSelect} />}
-                    func_yes={() => { }}
+                    jsxContent={<AddressForm defaultAddress={addressSelect} handleCloseModal={handleCloseModal} />}
                 />
             </div>
         </>
 
     );
 }
-function InputAddress({ ip_input, label, placeholder, value: defaultValue = "" }) {
 
-}
+function AddressForm({ mode, defaultAddress, handleCloseModal }) {
+    const [formAddress, setFormAddress] = useState({
+        hl_name: (defaultAddress) ? defaultAddress.hotline_name : "",
+        hl_phonenumber: defaultAddress ? defaultAddress.hotline_phonenumber : "",
+        hl_address: defaultAddress ? defaultAddress.hotline_address : "",
+        hl_default: defaultAddress ? defaultAddress.hotline_default : false,
+    });
 
-function AddAddress() {
+    const handleChangeForm = (e) => {
+        const { name, value, type, checked } = e.target;
+        setFormAddress((prev) => ({ ...prev, [name]: type === "checkbox" ? checked : value }));
+    }
+
+    // Khi bạn làm form trong React, bạn thường viết:
+    // const { name, value } = e.target;
+    // setFormData(prev => ({ ...prev, [name]: value }));
+    // 👉 Cách này hoạt động tốt cho input type="text", textarea, select,…
+    // Nhưng với checkbox, thì value không cho bạn biết checkbox đang được tick hay không ❌
+    // 🔍 Sự khác biệt của checkbox:
+    // Giả sử bạn có input:
+    // <input type="checkbox" name="agree" />
+    // Khi người dùng tick hoặc bỏ tick:
+    // e.target.value luôn là "on" (hoặc giá trị trong thuộc tính value="" nếu có) ❌
+    // e.target.checked mới là true / false ✅ (cho biết checkbox đang bật hay tắt)
+
+    const handleSubmitForm = async (e) => {
+        e.preventDefault();
+        if (mode == "add") {
+            alert("Check dữ liệu thêm địa chỉ trong Dev Tools");
+        }
+        else {
+            alert("Check dữ liệu cập nhật địa chỉ trong Dev Tools");
+        }
+        console.log("Form Address Data: ", formAddress);
+        handleCloseModal();
+    }
     return (
         <>
-            <div className="mx-auto space-y-4">
+            <form onSubmit={handleSubmitForm} className="mx-auto space-y-4">
                 <Input
-                    id_input={"address_ip1"} label={"Tên người nhận"}
-                    placeholder={"Nhập tên người nhận"} type={"text"}
-                    cls_icon="bi bi-person-vcard-fill"
+                    name={"hl_name"} id_input={"address_ip1"} type={"text"}
+                    label={"Tên người nhận"} placeholder={"Nhập tên người nhận"}
+                    cls_icon="bi bi-person-vcard-fill" value={formAddress.hl_name}
+                    onChange={handleChangeForm}
                 />
                 <Input
-                    id_input={"address_ip2"} label={"Số điện thoại "}
-                    placeholder={"0328884320"} type={"text"}
-                    cls_icon="bi bi-telephone-plus-fill"
+                    name={"hl_phonenumber"} id_input={"address_ip2"} type={"text"}
+                    label={"Số điện thoại "} placeholder={"0328884320"}
+                    cls_icon="bi bi-telephone-plus-fill" value={formAddress.hl_phonenumber}
+                    onChange={handleChangeForm}
                 />
                 <TextArea
-                    id_input={"address_ip3"} label_content={"Địa chỉ"}
-                    placeholder={"Tổ 6, thôn 7, xã Cẩm Xuyên, tỉnh Hà Tĩnh"} type={"text"}
-                    cls_icon="bi bi-house-add-fill"
+                    name={"hl_address"} id_input={"address_ip3"} type={"text"}
+                    label_content={"Địa chỉ"} placeholder={"Tổ 6, thôn 7, xã Cẩm Xuyên, tỉnh Hà Tĩnh"}
+                    cls_icon="bi bi-house-add-fill" value={formAddress.hl_address}
+                    onChange={handleChangeForm}
                 />
-
-            </div>
+                <div className="flex items-center">
+                    <input
+                        type="checkbox"
+                        name="hl_default"
+                        id="address_ip4"
+                        className="bg-mainCL"
+                        checked={formAddress.hl_default}
+                        onChange={handleChangeForm}
+                    />
+                    <label htmlFor="address_ip4" className="ms-2">
+                        Đặt làm địa chỉ mặc định
+                    </label>
+                </div>
+                <div className="flex justify-end">
+                    <button
+                        type="submit"
+                        className="bg-mainCL px-4 py-2 rounded-md text-white"
+                    >
+                        {mode === "add" ? "Thêm mới" : "Lưu thay đổi"}
+                    </button>
+                </div>
+            </form>
         </>
     )
 }
-
-function UpdateAddress({ address }) {
-    return (
-        <>
-            <div className="mx-auto space-y-4">
-                <Input
-                    id_input={"address_ip1"} label={"Tên người nhận"}
-                    placeholder={"Nhập tên người nhận"} type={"text"}
-                    cls_icon="bi bi-person-vcard-fill" value={address.hotline_name}
-                />
-                <Input
-                    id_input={"address_ip2"} label={"Số điện thoại "}
-                    placeholder={"0328884320"} type={"text"}
-                    cls_icon="bi bi-telephone-plus-fill" value={address.hotline_phonenumber}
-                />
-                <TextArea
-                    id_input={"address_ip3"} label_content={"Địa chỉ"}
-                    placeholder={"Tổ 6, thôn 7, xã Cẩm Xuyên, tỉnh Hà Tĩnh"} type={"text"}
-                    cls_icon="bi bi-house-add-fill" value={address.hotline_address}
-                />
-
-            </div>
-        </>
-    )
-}
-
 
 function ButtonAddAddress({ clickFunc }) {
     return (
@@ -123,7 +151,9 @@ function ButtonAddAddress({ clickFunc }) {
 
 function AddressItem({ isDefault, address, handleOpenUpdate }) {
     return (
-        <div className=" p-3 border border-gray-300 rounded-lg shadow-md cursor-pointer relative">
+        <div className={`p-3 border border-gray-300 rounded-lg shadow-md cursor-pointer relative 
+            hover:scale-[99%] hover:shadow-lg hover:shadow-mainCL transition-all duration-300 ease-in-out
+        ${isDefault ? "border-mainCL" : ""}`}>
             <p className="text-lg font-bold">
                 {address.hotline_name}
             </p>
@@ -140,11 +170,6 @@ function AddressItem({ isDefault, address, handleOpenUpdate }) {
                 <button type="button" className="text-[#FF0800]">
                     Xóa
                 </button>
-                {!isDefault && (
-                    <button className="font-medium text-gray-500">
-                        Đặt làm mặc định
-                    </button>
-                )}
             </div>
             {isDefault &&
                 (<div className="absolute top-3 right-3 bg-mainCL text-sm text-white px-2 py-0.5 rounded-full">

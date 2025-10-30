@@ -22,9 +22,9 @@ export function Home() {
     const copy__articles = [];
     // populate sample product cards
     for (let i = 0; i < 6; i++) {
-        copy__products.push(<ProductCard key={"p" + i} product={eg_phone[0]} baselink={base_link} />)
-        copy__deals.push(<DealCard baselink={base_link} key={"d" + i} p_sale={eg_deal[0]} />)
-        copy__articles.push(<ArticleCard article={eg_article[0]} key={"a" + i} baselink={base_link} />)
+        copy__products.push(<ProductCard key={"p" + i} product={eg_phone} baselink={base_link} />)
+        copy__deals.push(<DealCard baselink={base_link} key={"d" + i} p_sale={eg_deal} />)
+        copy__articles.push(<ArticleCard article={eg_article} key={"a" + i} baselink={base_link} />)
     }
     //
 

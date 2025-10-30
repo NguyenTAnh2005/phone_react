@@ -3,17 +3,18 @@ import { Link } from "react-router-dom";
 import { getNumScreenSize, priceFormatter } from "../utils/utils";
 
 export function ProductCard({ product, baselink, max_width = "350px", fs_title = "xl", fs_text = "base", fs_desc = "xs", hover_out = true }) {
-    const [favorite, setFavorite] = useState(false);
-    function changeStatefavorite() {
-        setFavorite(!favorite);
-    }
+    const handleAddToCartlist = () => {
+        console.log("Sản phẩm được thêm vào giỏ hàng:", product);
+
+        alert(`✅ Đã thêm " ${product.phone_name} - ${product.variant_ph_ram}GB/${product.variant_ph_rom}GB" vào giỏ hàng!`);
+    };
     return (
         <div
             className={`flex flex-col w-full max-w-[${max_width} ] border rounded-2xl
                  border-gray-200 p-2 group mx-auto overflow-hidden cursor-pointer
                 ${hover_out && "hover:shadow-lg hover:shadow-mainCL hover:border-mainCL hover:-translate-y-1 "}
                 transition-all duration-300 ease-linear bg-white relative text-${fs_text}`}>
-            <Link to={"/product-details"} className="flex flex-col">
+            <Link to={"/ProductDetails"} className="flex flex-col">
                 <div className="rounded-lg overflow-hidden">
                     <img src={`${baselink}${product.variant_img}`} alt={product.phone_name}
                         className="w-full rounded-lg transition-transform duration-300 ease-in-out group-hover:scale-110 aspect-square object-cover" loading="lazy" />
@@ -38,17 +39,13 @@ export function ProductCard({ product, baselink, max_width = "350px", fs_title =
                 </div>
             </Link>
             <hr className="h-[1px] border-gray-200" />
-            <div className="mt-2 flex justify-between items-center">
-                <div title="Add Product to Cart!"
+            <div className="mt-2 flex justify-center items-center">
+                <div
+                    title="Add Product to Cart!"
+                    onClick={handleAddToCartlist}
                     className={`min-w-fit px-3 py-1  
-                  text-mainCL rounded-lg transition-all duration-300 ease-linear`}>
-                    <i className={`bi bi-cart-plus text-${fs_title}`}></i>
-                </div>
-                <div title="Add Product to List Favorite!" className={`flex justify-center text-${fs_title} px-2`}>
-                    <i onClick={changeStatefavorite}
-                        className={`transition-all duration-300 ease-linear text-[#FF0800] 
-                            ${favorite ? " bi bi-heart-fill " : " bi bi-heart "}`}>
-                    </i>
+                  text-mainCL transition-all duration-300 ease-linear`}>
+                    <i className={`bi bi-cart-plus px-2 py-1 rounded-full text-${fs_title} hover:bg-mainCL hover:text-white transition-colors duration-300 ease-in-out`}></i>
                 </div>
             </div>
             <div className={`flex bg-mainCL absolute top-2 px-2 left-2 rounded-lg text-white font-semibold text-${fs_text} 
@@ -58,4 +55,8 @@ export function ProductCard({ product, baselink, max_width = "350px", fs_title =
             </div>
         </div>
     )
+}
+
+function CartProduct({ product }) {
+
 }

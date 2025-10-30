@@ -8,14 +8,14 @@ export function Deals() {
     const dealsList = [];
     for (let i = 0; i < 10; i++) {
         dealsList.push(
-            <DealCard key={"deal" + i} baselink={base_link} p_sale={eg_deal[0]}
+            <DealCard key={"deal" + i} baselink={base_link} p_sale={eg_deal}
                 max_width="200px" fs_title={"base"} fs_text={"sm"} fs_desc={"xs"} hover_out={false} />
         );
     }
     const dealsListWeek = [];
     for (let i = 0; i < 5; i++) {
         dealsListWeek.push(
-            <DealCard key={"deal" + i} baselink={base_link} p_sale={eg_deal[0]}
+            <DealCard key={"deal" + i} baselink={base_link} p_sale={eg_deal}
                 max_width="200px" fs_title={"base"} fs_text={"sm"} fs_desc={"xs"} hover_out={false} />
         );
     }
@@ -32,7 +32,7 @@ export function Deals() {
                             Các ưu đãi hấp dẫn
                         </span>
                     </div>
-                    <p className="text-base md:text-lg mt-3 font-medium text-gray-700 max-w-2xl">
+                    <p className="text-base md:text-lg mt-3 font-medium text-gray-700">
                         Đừng bỏ lỡ: Tổng hợp các chương trình giảm giá và khuyến mãi đặc biệt từ các thương hiệu hàng đầu.
                     </p>
                 </div>

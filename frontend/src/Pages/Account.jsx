@@ -4,8 +4,6 @@ import { priceFormatter } from "../utils/utils";
 import { Info1 } from "../Pages/AccountPages/Info1"
 import { Info2 } from "../Pages/AccountPages/Info2"
 import { Address } from "../Pages/AccountPages/Address"
-import { Favorite } from "../Pages/AccountPages/Favorite"
-import { Cart } from "../Pages/AccountPages/Cart"
 import { Orders } from "../Pages/AccountPages/Orders"
 
 const tabComponents = {

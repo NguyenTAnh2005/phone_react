@@ -66,7 +66,7 @@ function List_Phones({ base_link }) {
     const arrPhone = [];
     for (let i = 0; i < 15; i++) {
         arrPhone.push(
-            <ProductCard key={"ph" + i} baselink={base_link} product={eg_phone[0]} hover_out={false}
+            <ProductCard key={"ph" + i} baselink={base_link} product={eg_phone} hover_out={false}
                 max_width={"200px"} fs_title={"base"} fs_text={"sm"} fs_desc={"xs"} />
         )
     }

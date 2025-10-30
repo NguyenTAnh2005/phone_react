@@ -71,8 +71,9 @@ function NavActions({ cls_name = "" }) {
             <Link to={"/Phones"}>
                 <Action id="act_search" content="Search" clsicon="bi bi-search" />
             </Link>
-            <Action id="act_favorite" content="Favorite" clsicon="bi bi-heart" />
-            <Action id="act_cart" content="Cart" clsicon="bi bi-cart-check" />
+            <Link>
+                <Action id="act_cart" content="Cart" clsicon="bi bi-cart-check" />
+            </Link>
         </div>
     )
 }

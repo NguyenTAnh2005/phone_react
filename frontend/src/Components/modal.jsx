@@ -6,18 +6,10 @@
 
 // const name =()=>{} la function name (){}
 
-export function ModalYesNo({ isOpen, onClose, title, jsxContent, content_no, content_yes, func_no = () => { }, func_yes }) {
+export function Modal({ isOpen, onClose, title, jsxContent }) {
 
     if (!isOpen) {
         return null;
-    }
-    const handleNo = () => {
-        func_no();
-        onClose();
-    }
-    const handleYes = () => {
-        func_yes();
-        onClose();
     }
     return (
         <>
@@ -28,24 +20,10 @@ export function ModalYesNo({ isOpen, onClose, title, jsxContent, content_no, con
                         <span className=" font-semibold">
                             {title}
                         </span>
-                        <i className="bi bi-x-lg" onClick={handleNo}></i>
+                        <i className="bi bi-x-lg" onClick={onClose}></i>
                     </div>
                     <div className="mb-6">
                         {jsxContent}
-                    </div>
-                    <div className="flex justify-end space-x-3">
-                        <button
-                            onClick={handleNo}
-                            className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-100 transition-colors"
-                        >
-                            {content_no || "Hủy"}
-                        </button>
-                        <button
-                            onClick={handleYes}
-                            className="px-4 py-2 bg-mainCL text-white rounded-md hover:bg-orange-600 transition-colors"
-                        >
-                            {content_yes || "Đồng ý"}
-                        </button>
                     </div>
                 </div>
             </div>
