@@ -7,6 +7,10 @@ export function LogIn() {
         email: "",
         password: "",
     });
+
+    // e	Là sự kiện (Event).	Khi bạn gõ phím, e mang theo thông tin về hành động đó.
+    // e.target	Là ô input vừa bị thay đổi.	Cho biết chính xác ô nào người dùng vừa gõ vào (Email hay Password).
+    // const { name, value } = e.target;	Lấy 2 thứ từ ô input đó: Tên (key) và Giá trị mới (value).	Giúp xác định: "Tên trường này" cần được cập nhật bằng "Giá trị mới này" trong state.
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData((prev) => ({ ...prev, [name]: value }))

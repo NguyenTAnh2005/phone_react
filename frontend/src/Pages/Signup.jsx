@@ -2,6 +2,7 @@ import { Input, InputPassword, Or } from "../Components/input";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { ButtonActiveLink } from "../Components/Button";
+import { getDate } from "../utils/utils";
 export function SignUp() {
     const [formData, setFormData] = useState({
         first_name: "",
