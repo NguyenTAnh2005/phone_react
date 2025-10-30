@@ -55,15 +55,15 @@ export const eg_deal =
 }
 
 
-export const eg_article = [
-    {
-        id: "art_1",
-        title: "The Evolution of Smartphones: A Journey Through Time",
-        img_link: "eg_article",
-        desc: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maxime quia dolorum, odio doloremque nulla voluptatibus qui praesentium repellat aut sit.",
-        time: "25/10/2025",
-        link: ""
-    }]
+export const eg_article =
+{
+    id: "art_1",
+    title: "The Evolution of Smartphones: A Journey Through Time",
+    img_link: "eg_article",
+    desc: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maxime quia dolorum, odio doloremque nulla voluptatibus qui praesentium repellat aut sit.",
+    time: "25/10/2025",
+    link: ""
+}
 
 export const eg_account = {
     account_id: "acc_001",
@@ -181,6 +181,42 @@ export const cart_list_product = [
     },
     {
         product_id: "ph_6",
+        phone_name: "Iphone X",
+        phone_release_year: "2020",
+        phone_desc: "iPhone 10 với thiết kế tai thỏ đột phá, màn hình OLED.",
+        variant_id: "v1",
+        variant_ph_ram: 3,
+        variant_ph_rom: 64,
+        variant_ph_color: "White",
+        variant_ph_new_price: 9320000,
+        variant_img: "eg_phone"
+    },
+    {
+        product_id: "ph_7",
+        phone_name: "Iphone X",
+        phone_release_year: "2020",
+        phone_desc: "iPhone 10 với thiết kế tai thỏ đột phá, màn hình OLED.",
+        variant_id: "v1",
+        variant_ph_ram: 3,
+        variant_ph_rom: 64,
+        variant_ph_color: "White",
+        variant_ph_new_price: 9320000,
+        variant_img: "eg_phone"
+    },
+    {
+        product_id: "ph_8",
+        phone_name: "Iphone X",
+        phone_release_year: "2020",
+        phone_desc: "iPhone 10 với thiết kế tai thỏ đột phá, màn hình OLED.",
+        variant_id: "v1",
+        variant_ph_ram: 3,
+        variant_ph_rom: 64,
+        variant_ph_color: "White",
+        variant_ph_new_price: 9320000,
+        variant_img: "eg_phone"
+    },
+    {
+        product_id: "ph_9",
         phone_name: "Iphone X",
         phone_release_year: "2020",
         phone_desc: "iPhone 10 với thiết kế tai thỏ đột phá, màn hình OLED.",

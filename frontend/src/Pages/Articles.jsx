@@ -9,7 +9,7 @@ export function Articles() {
     const articlesList = [];
     for (let i = 0; i < 8; i++) {
         articlesList.push(
-            <ArticleCard key={"article" + i} baselink={base_link} article={eg_article[0]}
+            <ArticleCard key={"article" + i} baselink={base_link} article={eg_article}
                 fs_title={"base"} fs_text={"sm"} fs_desc={"xs"} />
         );
     }

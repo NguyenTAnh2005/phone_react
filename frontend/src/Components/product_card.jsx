@@ -57,16 +57,20 @@ export function ProductCard({ product, baselink, max_width = "350px", fs_title =
     )
 }
 
-export function CartProduct({ product, baselink }) {
+export function CartProduct({ product, baselink, checked, onChange }) {
     return (
         <div
-            className="flex bg-white justify-start items-start rounded-md shadow-md shadow-gray-300 border p-1 gap-1
+            className="flex items-center bg-white justify-evenly rounded-md shadow-md shadow-gray-300 border p-0.5 px-2
                          border-gray-300 cursor-pointer hover:scale-[101%] hover:shadow-mainCL transition-all
-                         duration-300 ease-in-out "
+                         duration-300 ease-in-out w-full"
         >
-            <input type="checkbox" />
+            <input
+                type="checkbox"
+                checked={checked}
+                onChange={onChange}
+            />
             <div className="flex items-center gap-2 p-2">
-                <picture className="max-w-24">
+                <picture className="max-w-16">
                     <img
                         className="rounded-md"
                         src={`${baselink}${product.variant_img}`}
@@ -74,14 +78,14 @@ export function CartProduct({ product, baselink }) {
                     />
                 </picture>
                 <div className="flex flex-col">
-                    <p className="text-base font-bold mb-1">
+                    <p className="text-sm font-bold">
                         {product.phone_name} - {product.variant_ph_ram}GB/{product.variant_ph_rom}GB
                     </p>
-                    <p className="text-sm text-gray-600 font-semibold">
+                    <p className="text-sm text-gray-600">
                         {product.phone_desc}
                     </p>
-                    <div className="flex justify-between items-center my-2 px-2">
-                        <p className="text-sm font-light text-gray-500">
+                    <div className="flex justify-between items-center my-1 px-2">
+                        <p className="text-sm font-light text-mainCL lowercase">
                             {product.variant_ph_color}
                         </p>
                         <p className="text-base text-mainCL font-semibold">
@@ -90,7 +94,6 @@ export function CartProduct({ product, baselink }) {
                                 : priceFormatter(product.variant_ph_new_price)} đ
                         </p>
                     </div>
-
                 </div>
             </div>
         </div>
