@@ -45,7 +45,8 @@ export function Account() {
 
 function UserProfileInfo({ account }) {
     return (
-        <div className="flex items-center shadow-md rounded-md px-5 py-2 cursor-pointer hover:scale-105 transition-transform duration-300 ease-in-out">
+        <div className="flex items-center shadow-md rounded-md px-5 py-2 cursor-pointer border border-gray-300
+        hover:scale-105 transition-transform duration-300 ease-in-out">
             <i className="bi bi-person-circle text-mainCL text-5xl bg-white p-2 rounded-full "></i>
             <div className="flex flex-col">
                 <p className="text-lg font-bold">
@@ -58,7 +59,8 @@ function UserProfileInfo({ account }) {
 
 function UserOrderStats({ order_stats }) {
     return (
-        <div className="flex items-center shadow-md rounded-md px-5 py-2 cursor-pointer hover:scale-105 transition-transform duration-300 ease-in-out">
+        <div className="flex items-center shadow-md rounded-md px-5 py-2 cursor-pointer   border border-gray-300
+        hover:scale-105 transition-transform duration-300 ease-in-out">
             <i className="bi bi-cart-check text-mainCL text-5xl bg-white p-2 rounded-full"></i>
             <div className="flex flex-col">
                 <div className="flex">

@@ -99,3 +99,15 @@ export function CartProduct({ product, baselink, checked, onChange }) {
         </div>
     )
 }
+
+export function OrderItem({ product }) {
+    return (
+        <Link to={"/ProductDetails"}>
+            <p>{product.phone_name} {product.variant_ph_ram}GB/{product.variant_ph_rom}GB</p>
+            <p>{product.variant_ph_color}</p>
+            <p>
+                {product.variant_ph_final_price ? product.variant_ph_final_price : product.variant_ph_new_price}
+            </p>
+        </Link>
+    )
+}

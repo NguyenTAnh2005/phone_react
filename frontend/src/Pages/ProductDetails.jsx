@@ -1,20 +1,23 @@
 import { eg_phone, list_img } from "../Data_Test/Data_Home_Test";
 import { useState } from "react";
 import { priceFormatter, scrollToTopSmooth } from "../utils/utils";
-export function ProductDetails() {
-    console.log(eg_phone);
+
+// Check thêm ktra trong kho xem còn hàng ko 
+
+export function ProductDetails({ product = eg_phone, status = false, listIMG = list_img }) {
+
     return (
         <div className="animate__animated animate__fadeIn">
             {scrollToTopSmooth()}
             <div className="grid grid-cols-1 md:grid-cols-2 bg-white pt-5">
                 <div className="p-5">
-                    <SlideIMG arr_Img={list_img} product={eg_phone} />
+                    <SlideIMG arr_Img={listIMG} product={product} />
                 </div>
                 <div className="p-5" >
-                    <InfoTop product={eg_phone} />
+                    <InfoTop product={product} status={status} />
                 </div>
                 <div className="col-span-full">
-                    <InfoBottom product={eg_phone} />
+                    <InfoBottom product={product} status={status} />
                 </div>
             </div>
         </div>
@@ -42,7 +45,7 @@ function SlideIMG({ arr_Img }) {
         </div>
     )
 }
-function InfoTop({ product }) {
+function InfoTop({ product, status }) {
     return (
         <div>
             <p className="text-2xl font-bold mb-5">
@@ -54,7 +57,11 @@ function InfoTop({ product }) {
             </div>
             <div className="mb-3">
                 <span className="font-semibold">Status: </span>
-                <span className="text-green-600 font-semibold">Available</span> </div>
+                {status
+                    ? (<span className="text-green-600 font-semibold"> Còn hàng </span>)
+                    : (<span className="text-red-600 font-semibold"> Hết hàng </span>)
+                }
+            </div>
             <div className="mb-3 text-justify text-sm md:text-base">
                 <span className="font-semibold">Desc: </span>
                 {product.phone_desc}
@@ -78,7 +85,7 @@ function InfoBottomItems({ cls_icon, clr_icon, title, content }) {
     )
 }
 
-function InfoBottom({ product }) {
+function InfoBottom({ product, status }) {
     return (
         <div>
             <p className="text-center text-3xl font-semibold bg-mainCL text-white py-3">
@@ -100,15 +107,18 @@ function InfoBottom({ product }) {
                 <InfoBottomItems content={product.phone_release_year} title={"Năm phát hành"} cls_icon="bi bi-calendar" clr_icon="#0891b2" />
                 <InfoBottomItems content={product.phone_ear_phone} title={"Tai nghe"} cls_icon="bi bi-headphones" clr_icon="#8b5cf6" />
             </div>
+
             <div className="flex justify-evenly py-5">
                 <button className="text-xl font-semibold bg-[#FFEF00] px-2 py-1 rounded-md">
                     <i className="bi bi-cart-plus me-2"></i>
                     Add To Cart
                 </button>
-                <button className="text-xl font-semibold bg-[#39FF14] px-2 py-1 rounded-md">
-                    <i className="fa-regular fa-credit-card me-2"></i>
-                    Buy now
-                </button>
+                {status && (
+                    <button className="text-xl font-semibold bg-[#39FF14] px-2 py-1 rounded-md">
+                        <i className="fa-regular fa-credit-card me-2"></i>
+                        Buy now
+                    </button>
+                )}
             </div>
         </div>
     )

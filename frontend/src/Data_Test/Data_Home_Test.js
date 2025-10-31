@@ -22,7 +22,8 @@ export const eg_phone =
     variant_ph_color: "White",
     variant_ph_org_price: 14920000,
     variant_ph_new_price: 9320000,
-    variant_img: "eg_phone"
+    variant_img: "eg_phone",
+    variant_state: "Máy bị xước nhẹ bên ngoài, pin đã qua sử dụng một thời gian, không tặng kèm sạc và phụ kiện nào khác!"
 }
 
 
@@ -51,7 +52,7 @@ export const eg_deal =
     variant_ph_org_price: 14920000,
     variant_ph_new_price: 9320000,
     variant_ph_final_price: 7900000,
-    variant_img: "eg_phone"
+    variant_img: "eg_phone",
 }
 
 
