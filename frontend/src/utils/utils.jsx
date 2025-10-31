@@ -12,6 +12,9 @@ export function getNumScreenSize(screen_size_str) {
 }
 // Hàm thêm . vào giá  
 export function priceFormatter(price) {
+    if (price < 1000) {
+        return `${price}`
+    }
     const str_arr = price.toString().split("");
     const idx_dot = str_arr.length % 3;
     str_arr.splice(idx_dot, 0, ".");

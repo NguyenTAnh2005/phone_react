@@ -16,12 +16,13 @@ export const eg_phone =
     phone_memory_card: false,
     phone_desc: "iPhone 10 với thiết kế tai thỏ đột phá, màn hình OLED.",
     company_id: "company_1",
-    variant_id: "v1",
+    variant_id: "ph_1__v1",
     variant_ph_ram: 3,
     variant_ph_rom: 64,
     variant_ph_color: "White",
     variant_ph_org_price: 14920000,
     variant_ph_new_price: 9320000,
+    variant_ph_final_price: 9320000,
     variant_img: "eg_phone",
     variant_state: "Máy bị xước nhẹ bên ngoài, pin đã qua sử dụng một thời gian, không tặng kèm sạc và phụ kiện nào khác!"
 }
@@ -45,7 +46,7 @@ export const eg_deal =
     phone_memory_card: false,
     phone_desc: "iPhone 10 với thiết kế tai thỏ đột phá, màn hình OLED.",
     company_id: "company_1",
-    variant_id: "v1",
+    variant_id: "ph_1__v1",
     variant_ph_ram: 3,
     variant_ph_rom: 64,
     variant_ph_color: "White",
@@ -81,6 +82,7 @@ export const eg_order_stats = {
     order_count: 2,
     money_count: 10000000
 }
+
 export const eg_hotline = [
     {
         hotline_id: "hl_001",
@@ -125,11 +127,11 @@ export const cart_list_product = [
         phone_name: "Iphone X",
         phone_release_year: "2020",
         phone_desc: "iPhone 10 với thiết kế tai thỏ đột phá, màn hình OLED.",
-        variant_id: "v1",
+        variant_id: "ph_1__v1",
         variant_ph_ram: 3,
         variant_ph_rom: 64,
         variant_ph_color: "White",
-        variant_ph_new_price: 9320000,
+        variant_ph_final_price: 9320000,
         variant_img: "eg_phone"
     },
     {
@@ -137,11 +139,11 @@ export const cart_list_product = [
         phone_name: "Iphone X",
         phone_release_year: "2020",
         phone_desc: "iPhone 10 với thiết kế tai thỏ đột phá, màn hình OLED.",
-        variant_id: "v1",
+        variant_id: "ph_2__v1",
         variant_ph_ram: 3,
         variant_ph_rom: 64,
         variant_ph_color: "White",
-        variant_ph_new_price: 9320000,
+        variant_ph_final_price: 9320000,
         variant_img: "eg_phone"
     },
     {
@@ -149,11 +151,11 @@ export const cart_list_product = [
         phone_name: "Iphone X",
         phone_release_year: "2020",
         phone_desc: "iPhone 10 với thiết kế tai thỏ đột phá, màn hình OLED.",
-        variant_id: "v1",
+        variant_id: "ph_3__v1",
         variant_ph_ram: 3,
         variant_ph_rom: 64,
         variant_ph_color: "White",
-        variant_ph_new_price: 9320000,
+        variant_ph_final_price: 9320000,
         variant_img: "eg_phone"
     },
     {
@@ -161,11 +163,11 @@ export const cart_list_product = [
         phone_name: "Iphone X",
         phone_release_year: "2020",
         phone_desc: "iPhone 10 với thiết kế tai thỏ đột phá, màn hình OLED.",
-        variant_id: "v1",
+        variant_id: "ph_4__v1",
         variant_ph_ram: 3,
         variant_ph_rom: 64,
         variant_ph_color: "White",
-        variant_ph_new_price: 9320000,
+        variant_ph_final_price: 9320000,
         variant_img: "eg_phone"
     },
     {
@@ -173,11 +175,11 @@ export const cart_list_product = [
         phone_name: "Iphone X",
         phone_release_year: "2020",
         phone_desc: "iPhone 10 với thiết kế tai thỏ đột phá, màn hình OLED.",
-        variant_id: "v1",
+        variant_id: "ph_5__v1",
         variant_ph_ram: 3,
         variant_ph_rom: 64,
         variant_ph_color: "White",
-        variant_ph_new_price: 9320000,
+        variant_ph_final_price: 9320000,
         variant_img: "eg_phone"
     },
     {
@@ -185,11 +187,11 @@ export const cart_list_product = [
         phone_name: "Iphone X",
         phone_release_year: "2020",
         phone_desc: "iPhone 10 với thiết kế tai thỏ đột phá, màn hình OLED.",
-        variant_id: "v1",
+        variant_id: "ph_6__v1",
         variant_ph_ram: 3,
         variant_ph_rom: 64,
         variant_ph_color: "White",
-        variant_ph_new_price: 9320000,
+        variant_ph_final_price: 9320000,
         variant_img: "eg_phone"
     },
     {
@@ -197,11 +199,11 @@ export const cart_list_product = [
         phone_name: "Iphone X",
         phone_release_year: "2020",
         phone_desc: "iPhone 10 với thiết kế tai thỏ đột phá, màn hình OLED.",
-        variant_id: "v1",
+        variant_id: "ph_7__v1",
         variant_ph_ram: 3,
         variant_ph_rom: 64,
         variant_ph_color: "White",
-        variant_ph_new_price: 9320000,
+        variant_ph_final_price: 9320000,
         variant_img: "eg_phone"
     },
     {
@@ -209,11 +211,11 @@ export const cart_list_product = [
         phone_name: "Iphone X",
         phone_release_year: "2020",
         phone_desc: "iPhone 10 với thiết kế tai thỏ đột phá, màn hình OLED.",
-        variant_id: "v1",
+        variant_id: "ph_8__v1",
         variant_ph_ram: 3,
         variant_ph_rom: 64,
         variant_ph_color: "White",
-        variant_ph_new_price: 9320000,
+        variant_ph_final_price: 9320000,
         variant_img: "eg_phone"
     },
     {
@@ -221,11 +223,44 @@ export const cart_list_product = [
         phone_name: "Iphone X",
         phone_release_year: "2020",
         phone_desc: "iPhone 10 với thiết kế tai thỏ đột phá, màn hình OLED.",
-        variant_id: "v1",
+        variant_id: "ph_9__v1",
         variant_ph_ram: 3,
         variant_ph_rom: 64,
         variant_ph_color: "White",
-        variant_ph_new_price: 9320000,
+        variant_ph_final_price: 9320000,
         variant_img: "eg_phone"
     }
+]
+
+export const list_cart_product = [
+    {
+        product_id: "ph_1",
+        phone_name: "Iphone X",
+        variant_id: "ph_1__v1",
+        variant_ph_ram: 3,
+        variant_ph_rom: 64,
+        variant_ph_color: "White",
+        variant_ph_final_price: 9320000,
+        variant_img: "eg_phone"
+    },
+    {
+        product_id: "ph_2",
+        phone_name: "Iphone X",
+        variant_id: "ph_2__v1",
+        variant_ph_ram: 3,
+        variant_ph_rom: 64,
+        variant_ph_color: "White",
+        variant_ph_final_price: 9320000,
+        variant_img: "eg_phone"
+    },
+    {
+        product_id: "ph_3",
+        phone_name: "Iphone X",
+        variant_id: "ph_3__v1",
+        variant_ph_ram: 3,
+        variant_ph_rom: 64,
+        variant_ph_color: "White",
+        variant_ph_final_price: 9320000,
+        variant_img: "eg_phone"
+    },
 ]

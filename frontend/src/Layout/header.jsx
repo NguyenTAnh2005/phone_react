@@ -24,8 +24,8 @@ export function Header() {
                 <NavAccount isLogIn={isLogIn} cls_name="hidden lg:flex" />
             </div>
             {/*===================MOBILE ====================================== */}
-            <div className={`lg:hidden flex flex-col gap-5 bg-white transition-all duration-500 ease-linear
-                overflow-hidden shadow-md w-full lg:w-1/2 pl-5 ml-auto ${expand ? "max-h-[900px] z-99" : "max-h-0"}`}>
+            <div className={`lg:hidden flex flex-col gap-5 bg-white transition-all duration-500 ease-linear sticky top-12 z-50
+                overflow-hidden shadow-md w-full lg:w-1/2 pl-5 ml-auto ${expand ? "max-h-[900px]" : "max-h-0"}`}>
                 <NavLink navLinks={list_nav} cls_name="lg:hidden flex flex-col gap-3 mt-5" />
                 <NavActions cls_name="lg:hidden flex flex gap-5 mx-auto" />
                 <div className="flex justify-center mb-5">

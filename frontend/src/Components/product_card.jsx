@@ -34,7 +34,7 @@ export function ProductCard({ product, baselink, max_width = "350px", fs_title =
                 <div className="flex justify-between mb-3">
                     <span className="capitalize font-semibold">New Price</span>
                     <span title="New Price" className={`text-mainCL align-text-bottom font-sans font-bold text-${fs_title}`}>
-                        {priceFormatter(product.variant_ph_new_price)}đ
+                        {priceFormatter(product.variant_ph_final_price)}đ
                     </span>
                 </div>
             </Link>
@@ -51,7 +51,7 @@ export function ProductCard({ product, baselink, max_width = "350px", fs_title =
             <div className={`flex bg-mainCL absolute top-2 px-2 left-2 rounded-lg text-white font-semibold text-${fs_text} 
             -translate-y-9 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 ease-linear`}>
                 <i className="bi bi-arrow-down"></i>
-                <span>{Math.round(100 - (product.variant_ph_new_price / product.variant_ph_org_price) * 100)}%</span>
+                <span>{Math.round(100 - (product.variant_ph_final_price / product.variant_ph_org_price) * 100)}%</span>
             </div>
         </div>
     )
@@ -89,25 +89,11 @@ export function CartProduct({ product, baselink, checked, onChange }) {
                             {product.variant_ph_color}
                         </p>
                         <p className="text-base text-mainCL font-semibold">
-                            {product.variant_ph_final_price
-                                ? priceFormatter(product.variant_ph_final_price)
-                                : priceFormatter(product.variant_ph_new_price)} đ
+                            {priceFormatter(product.variant_ph_final_price)} đ
                         </p>
                     </div>
                 </div>
             </div>
         </div>
-    )
-}
-
-export function OrderItem({ product }) {
-    return (
-        <Link to={"/ProductDetails"}>
-            <p>{product.phone_name} {product.variant_ph_ram}GB/{product.variant_ph_rom}GB</p>
-            <p>{product.variant_ph_color}</p>
-            <p>
-                {product.variant_ph_final_price ? product.variant_ph_final_price : product.variant_ph_new_price}
-            </p>
-        </Link>
     )
 }

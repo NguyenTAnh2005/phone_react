@@ -25,7 +25,7 @@ export function Home() {
 
     return (
         <>
-            {scrollToTopSmooth}
+            {scrollToTopSmooth()}
             <div className="animate__animated animate__fadeIn">
                 <div className="px-3 py-5 md:px-5 md:py-10  bg-gray-50">
                     <Home_Banner services={data_service} />

@@ -5,6 +5,7 @@ import { Info1 } from "../Pages/AccountPages/Info1"
 import { Info2 } from "../Pages/AccountPages/Info2"
 import { Address } from "../Pages/AccountPages/Address"
 import { Orders } from "../Pages/AccountPages/Orders"
+import { scrollToTopSmooth } from "../utils/utils";
 
 const tabComponents = {
     'info1': Info1,
@@ -24,22 +25,24 @@ export function Account() {
     }
 
     return (
-        <div className="flex flex-col py-10">
-            <div className="flex flex-col justify-evenly items-center md:flex-row md:gap-10 mb-10 bg-white">
-                <UserProfileInfo account={eg_account} />
-                <UserOrderStats order_stats={eg_order_stats} />
-            </div>
-
-            <div className="grid grid-cols-4 md:gap-5 gap-y-5 px-5 md:px-10">
-                <div className=" col-span-full w-2/3 sm:w-1/2 mx-auto md:col-span-1 md:w-full md:m-0">
-                    <Account_NavToggle setActiveTab={setActiveTab} activeTab={activeTab} />
+        <>
+            {scrollToTopSmooth()}
+            <div className="flex flex-col py-10">
+                <div className="flex flex-col justify-evenly items-center md:flex-row md:gap-10 mb-10 bg-white">
+                    <UserProfileInfo account={eg_account} />
+                    <UserOrderStats order_stats={eg_order_stats} />
                 </div>
-                <div className="col-span-full w-[95%] mx-auto md:col-span-3 md:m-0 md:w-full border border-gray-300 shadow-md rounded-md">
-                    {renderContent(activeTab)}
+
+                <div className="grid grid-cols-4 md:gap-5 gap-y-5 px-5 md:px-10">
+                    <div className=" col-span-full w-2/3 sm:w-1/2 mx-auto md:col-span-1 md:w-full md:m-0">
+                        <Account_NavToggle setActiveTab={setActiveTab} activeTab={activeTab} />
+                    </div>
+                    <div className="col-span-full w-[95%] mx-auto md:col-span-3 md:m-0 md:w-full border border-gray-300 shadow-md rounded-md">
+                        {renderContent(activeTab)}
+                    </div>
                 </div>
             </div>
-
-        </div>
+        </>
     )
 }
 
@@ -115,3 +118,37 @@ function Account_NavToggle({ activeTab, setActiveTab }) {
         </div>
     );
 }
+
+
+export const list_cart_product = [
+    {
+        product_id: "ph_1",
+        phone_name: "Iphone X",
+        variant_id: "ph_1__v1",
+        variant_ph_ram: 3,
+        variant_ph_rom: 64,
+        variant_ph_color: "White",
+        variant_ph_final_price: 9320000,
+        variant_img: "eg_phone"
+    },
+    {
+        product_id: "ph_2",
+        phone_name: "Iphone X",
+        variant_id: "ph_2__v1",
+        variant_ph_ram: 3,
+        variant_ph_rom: 64,
+        variant_ph_color: "White",
+        variant_ph_final_price: 9320000,
+        variant_img: "eg_phone"
+    },
+    {
+        product_id: "ph_3",
+        phone_name: "Iphone X",
+        variant_id: "ph_3__v1",
+        variant_ph_ram: 3,
+        variant_ph_rom: 64,
+        variant_ph_color: "White",
+        variant_ph_final_price: 9320000,
+        variant_img: "eg_phone"
+    },
+]

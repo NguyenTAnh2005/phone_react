@@ -1,10 +1,11 @@
 import { eg_phone, list_img } from "../Data_Test/Data_Home_Test";
 import { useState } from "react";
 import { priceFormatter, scrollToTopSmooth } from "../utils/utils";
+import { Link } from "react-router-dom";
 
 // Check thêm ktra trong kho xem còn hàng ko 
 
-export function ProductDetails({ product = eg_phone, status = false, listIMG = list_img }) {
+export function ProductDetails({ product = eg_phone, status = true, listIMG = list_img }) {
 
     return (
         <div className="animate__animated animate__fadeIn">
@@ -114,10 +115,10 @@ function InfoBottom({ product, status }) {
                     Add To Cart
                 </button>
                 {status && (
-                    <button className="text-xl font-semibold bg-[#39FF14] px-2 py-1 rounded-md">
+                    <Link to="/Order" className="text-xl font-semibold bg-[#39FF14] px-2 py-1 rounded-md">
                         <i className="fa-regular fa-credit-card me-2"></i>
                         Buy now
-                    </button>
+                    </Link>
                 )}
             </div>
         </div>

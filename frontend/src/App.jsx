@@ -14,6 +14,8 @@ import { SignUp } from './Pages/Signup'
 import { ForgotPassword } from './Pages/Forgotpassword'
 import { Account } from './Pages/Account'
 import { Cart } from "./Pages/Cart"
+import { Order } from './Pages/Order'
+import { AIOrder } from './Pages/AIOrder'
 
 /* Import for router DOM*/
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom'
@@ -33,6 +35,8 @@ function AppContent() {
         <Route path='/Contact' element={<Contact />} />
         <Route path='/Account' element={<Account />} />
         <Route path='/Cart' element={<Cart />} />
+        <Route path='/Order' element={<Order />} />
+        <Route path='/AIOrder' element={<AIOrder />} />
         <Route path='/ProductDetails' element={<ProductDetails />} />
         <Route path='/log-in' element={<LogIn />} />
         <Route path='/sign-up' element={<SignUp />} />

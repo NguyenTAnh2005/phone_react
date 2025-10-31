@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { cart_list_product } from "../Data_Test/Data_Home_Test"
 import { CartProduct } from "../Components/product_card"
+import { scrollToTopSmooth } from "../utils/utils";
 
 export function Cart({ list_product = cart_list_product }) {
     const [listProduct, setListProduct] = useState(list_product);
@@ -41,35 +42,37 @@ export function Cart({ list_product = cart_list_product }) {
             />)
     })
     return (
-        <div className="bg-slate-50 animate__animated animate_fadeIn py-5">
-            <div className="text-center">
-                <div className="flex font-bold text-5xl text-mainCL gap-5 justify-center">
-                    <i className="bi bi-cart-check"></i>
-                    <p className="">
-                        Giỏ hàng
+        <>
+            {scrollToTopSmooth()}
+            <div className="bg-slate-50 animate__animated animate_fadeIn py-5">
+                <div className="text-center">
+                    <div className="flex font-bold text-5xl text-mainCL gap-5 justify-center">
+                        <i className="bi bi-cart-check"></i>
+                        <p className="">
+                            Giỏ hàng
+                        </p>
+                    </div>
+                    <p className="text-slate-800 font-semibold text-xl mt-3">
+                        Kiểm tra các mặt hàng đã chọn và sẵn sàng đặt mua.
                     </p>
                 </div>
-                <p className="text-slate-800 font-semibold text-xl mt-3">
-                    Kiểm tra các mặt hàng đã chọn và sẵn sàng đặt mua.
-                </p>
+                <div className="grid grid-cols-1 md:grid-cols-2 p-5 gap-5 bg-white w-[90%] mx-auto mt-5 rounded-lg shadow-lg overflow-hidden max-h-[400px] md:max-h-[300px] overflow-y-scroll">
+                    {copy_arr}
+                </div>
+                <div className="w-[90%] mx-auto mt-5 flex justify-end gap-5 md:justify-center">
+                    <button
+                        onClick={handleDelete}
+                        className="text-mainCL border border-mainCL px-2 py-1 rounded-md font-semibold">
+                        Xóa
+                    </button>
+                    <button
+                        onClick={handleCheckout}
+                        className="text-white bg-mainCL px-2 py-1 rounded-md font-semibold">
+                        Mua ngay
+                    </button>
+                </div>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 p-5 gap-5 bg-white w-[90%] mx-auto mt-5 rounded-lg shadow-lg overflow-hidden max-h-[400px] md:max-h-[300px] overflow-y-scroll">
-                {copy_arr}
-            </div>
-            <div className="w-[90%] mx-auto mt-5 flex justify-end gap-5 md:justify-center">
-                <button
-                    onClick={handleDelete}
-                    className="text-mainCL border border-mainCL px-2 py-1 rounded-md font-semibold">
-                    Xóa
-                </button>
-                <button
-                    onClick={handleCheckout}
-                    className="text-white bg-mainCL px-2 py-1 rounded-md font-semibold">
-                    Mua ngay
-                </button>
-            </div>
-        </div>
-
+        </>
     );
 }
 
