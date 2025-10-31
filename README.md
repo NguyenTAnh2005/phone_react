@@ -133,10 +133,6 @@ npm run dev
 
 12. Ứng dụng React sẽ chạy thành công và bạn có thể bắt đầu phát triển.
 
-Tuyệt vời\! Nội dung bạn soạn đã rất đầy đủ và dễ hiểu. Tôi sẽ giúp bạn chỉnh sửa lại một chút về mặt từ ngữ, phong cách trình bày (styling) trong Markdown để file `README.md` của bạn trở nên chuyên nghiệp và thân thiện hơn.
-
-Dưới đây là phiên bản đã được tinh chỉnh:
-
 -----
 
 # Hướng Dẫn Khởi Động Ứng Dụng Frontend (Docker) 🐳
@@ -206,10 +202,6 @@ Mở trình duyệt và truy cập vào địa chỉ:
 http://localhost:8080
 ```
 
-(Hoặc sử dụng cổng khác bạn đã chọn).
-Tuyệt vời\! Tôi sẽ soạn một phần **"Tắt Ứng Dụng (Dọn dẹp)"** để bạn thêm vào cuối file `README.md` của mình.
-
-Phần này sẽ hướng dẫn cách dừng và xóa Container để giải phóng tài nguyên.
 
 -----
 
