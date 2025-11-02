@@ -31,6 +31,7 @@ export function Order({ account = eg_account, hotlineList = eg_hotline, list_pro
     const initDetail = list_cart_product.map(p => ({
         variant_id: p.variant_id,
         count: 1,
+        detail_name: `${p.phone_name} ${p.variant_ph_ram}/${p.variant_ph_rom}`,
         price: p.variant_ph_final_price,
         unit_price: p.variant_ph_final_price,
     }));
@@ -318,7 +319,7 @@ function OrderTime() {
 }
 
 function OrderDetail({ product, value, onChange }) {
-    const price = product.variant_ph_final_price ? product.variant_ph_final_price : product.variant_ph_final_price;
+    const price = product.variant_ph_final_price;
     const handlePlus = () => {
         onChange(product.variant_id, value + 1);
     }

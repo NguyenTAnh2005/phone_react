@@ -264,3 +264,170 @@ export const list_cart_product = [
         variant_img: "eg_phone"
     },
 ]
+
+
+/// Trang xem laij thong tin hoa don
+
+// Sao chep list_ product ben tren 
+export const orderDetailPhone = [
+    {
+        product_id: "ph_1",
+        phone_name: "Iphone X",
+        variant_id: "ph_1__v1",
+        variant_ph_ram: 3,
+        variant_ph_rom: 64,
+        variant_ph_color: "White",
+        variant_ph_final_price: 4995000,
+        variant_img: "eg_phone"
+    },
+    {
+        product_id: "ph_2",
+        phone_name: "Iphone X",
+        variant_id: "ph_2__v1",
+        variant_ph_ram: 3,
+        variant_ph_rom: 64,
+        variant_ph_color: "White",
+        variant_ph_final_price: 4995000,
+        variant_img: "eg_phone"
+    },
+    {
+        product_id: "ph_3",
+        phone_name: "Iphone X",
+        variant_id: "ph_3__v1",
+        variant_ph_ram: 3,
+        variant_ph_rom: 64,
+        variant_ph_color: "White",
+        variant_ph_final_price: 4995000,
+        variant_img: "eg_phone"
+    },
+]
+
+// OBJ mau hoa don 
+export const order = {
+    id: "2025-11-02T11:18:17.807Z--acc_001--hl_001",
+    account_id: "acc_001",
+    hotline_id: "hl_001",
+    buy_time: "02/11/2025",
+    rec_time: "06/11/2025",
+    type_pay: "Online", // "COD" hoặc "Online"
+    state: "PREPARE", // "PREPARE" | "SHIPPING" | "DONE" | "CANCEL"
+    total_price: 14985000,
+    detail: [
+        {
+            variant_id: "ph_1__v1",
+            count: 1,
+            detail_name: "iPhone X 3GB/64GB",
+            price: 4995000,
+            unit_price: 4995000,
+        },
+        {
+            variant_id: "ph_2__v1",
+            count: 1,
+            detail_name: "iPhone X 3GB/64GB",
+            price: 4995000,
+            unit_price: 4995000,
+        },
+        {
+            variant_id: "ph_3__v1",
+            count: 1,
+            detail_name: "iPhone X 3GB/64GB",
+            price: 4995000,
+            unit_price: 4995000,
+        },
+    ],
+};
+// Object mẫu — địa chỉ giao hàng
+export const orderAddress = {
+    hotline_id: "hl_001",
+    hotline_name: "Nguyễn Tuấn Anh",
+    hotline_phonenumber: "0328884320",
+    hotline_address: "Tổ 6, thôn 7, xã Cẩm Xuyên, tỉnh Hà Tĩnh 1",
+    hotline_default: true,
+};
+
+
+
+//// Trang Orders cua account 
+// ... (code cũ của bạn)
+
+// Object mẫu — địa chỉ giao hàng
+
+
+// ======== THÊM CODE MỚI TỪ ĐÂY ========
+
+// Danh sách đơn hàng giả lập cho trang Account
+export const list_orders = [
+    {
+        id: "2025-11-02T11:18:17.807Z--acc_001--hl_001",
+        account_id: "acc_001",
+        hotline_id: "hl_001", // Nối với eg_hotline
+        buy_time: "02/11/2025",
+        rec_time: "06/11/2025",
+        type_pay: "Online",
+        state: "DONE", // Đã hoàn tất
+        total_price: 14985000,
+        detail: [
+            {
+                variant_id: "ph_1__v1",
+                count: 1,
+                detail_name: "iPhone X 3GB/64GB",
+                price: 4995000,
+                unit_price: 4995000,
+            },
+            {
+                variant_id: "ph_2__v1",
+                count: 1,
+                detail_name: "iPhone X 3GB/64GB",
+                price: 4995000,
+                unit_price: 4995000,
+            },
+            {
+                variant_id: "ph_3__v1",
+                count: 1,
+                detail_name: "iPhone X 3GB/64GB",
+                price: 4995000,
+                unit_price: 4995000,
+            },
+        ],
+    },
+    {
+        id: "2025-10-30T09:30:00.000Z--acc_001--hl_002",
+        account_id: "acc_001",
+        hotline_id: "hl_002", // Nối với eg_hotline
+        buy_time: "30/10/2025",
+        rec_time: "03/11/2025",
+        type_pay: "COD",
+        state: "SHIPPING", // Đang giao
+        total_price: 9990000,
+        detail: [
+            {
+                variant_id: "ph_2__v1",
+                count: 2,
+                detail_name: "iPhone X 3GB/64GB",
+                price: 4995000,
+                unit_price: 9990000,
+            },
+        ],
+    },
+    {
+        id: "2025-10-28T14:00:00.000Z--acc_001--hl_001",
+        account_id: "acc_001",
+        hotline_id: "hl_001", // Nối với eg_hotline
+        buy_time: "28/10/2025",
+        rec_time: "01/11/2025",
+        type_pay: "Online",
+        state: "PREPARE", // Đang chuẩn bị
+        total_price: 4995000,
+        detail: [
+            {
+                variant_id: "ph_1__v1",
+                count: 1,
+                detail_name: "iPhone X 3GB/64GB",
+                price: 4995000,
+                unit_price: 4995000,
+            },
+        ],
+    }
+];
+
+
