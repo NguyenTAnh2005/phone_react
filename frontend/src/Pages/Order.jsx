@@ -1,11 +1,13 @@
-import { useState, version } from "react";
+import { useEffect, useState } from "react";
 import { eg_account, list_cart_product, eg_hotline } from "../Data_Test/Data_Home_Test";
-import { priceFormatter, strDate } from "../utils/utils";
+import { priceFormatter, strDate, scrollToTopSmooth } from "../utils/utils";
+import { useNavigate } from "react-router-dom";
 
 let QR_img_link = `https://res.cloudinary.com/df5mtvzkn/image/upload/v1762071145/WEB_SELL_PHONE__PROJECT/TEST/Test_IMG/653215d23485b8dbe194_mfuh7w.jpg`;
 
 export function Order({ account = eg_account, hotlineList = eg_hotline, list_product = list_cart_product }) {
 
+    const navigate = useNavigate();
     const [addressList, setAddressList] = useState(eg_hotline);
     // lấy address mặc định
     const [selectedAddress, setselectedAddress] = useState(() => {
@@ -74,22 +76,31 @@ export function Order({ account = eg_account, hotlineList = eg_hotline, list_pro
     }
 
     // Xử lý khi thay đổi phương thức thanh toán
+    const [typePay, setTypePay] = useState("");
     const [isPaid, setIsPaid] = useState(false);
     function handlePayOnline() {
         setIsPaid(true);
         alert("Bạn đã thanh toán thành công! Do chưa có backend nên dùng tạm cái này!");
     }
-    const [typePay, setTypePay] = useState("COD");
-    function handleChangeTypePay(typePay_value) {
-        setTypePay(typePay_value);
+
+    useEffect(() => {
+        if (typePay === "Online" && isPaid) {
+            handleSubmitOrder();
+        }
+    }, [typePay, isPaid])
+
+    function handleChangeTypePay(type_value) {
+        setTypePay(type_value);
         setFormOrderData((prev) => {
-            return { ...prev, type_pay: typePay_value }
+            return { ...prev, type_pay: type_value }
         })
     }
 
     // Xu ly dat hang
     const handleSubmitOrder = (e) => {
-        e.preventDefault();
+        if (e) {
+            e.preventDefault();
+        }
         const timeNow = new Date(Date.now()).toISOString();
         const timeRec = new Date(Date.now() + 4 * 24 * 60 * 60 * 1000).toISOString();
         const orderID = `${timeNow}--${account.account_id}--${selectedAddress.hotline_id}`
@@ -102,15 +113,19 @@ export function Order({ account = eg_account, hotlineList = eg_hotline, list_pro
         };
 
         setFormOrderData(newOrderData);
+        if (typePay === "") {
+            return alert("Vui lòng chọn hình thức thanh toán!");
+        }
         if (typePay === "Online" && !isPaid) {
             return alert("Vui lòng thanh toán hoặc đổi hình thức thanh toán!");
         }
         alert(`Đặt hàng thành công! Xem request tại Dev Tools!!!`);
         console.log("🧾 ORDER SUBMITTED:", newOrderData);
+        navigate("/Home");
     }
 
     return (
-        <>
+        <>{scrollToTopSmooth()}
             <form onSubmit={handleSubmitOrder} className="p-4 border rounded space-y-3 animate__animated animate__fadeIn">
                 <h2 className="font-bold text-lg text-center">Thanh toán - mua hàng</h2>
                 <div className="grid grid-cols-10 gap-3">
@@ -346,7 +361,6 @@ function OrderDetail({ product, value, onChange }) {
 
 function OrderTypePay({ onChangeTypePay, typePay, onPayOnline }) {
 
-
     return (
         <div className="border border-gray-300 rounded-lg overflow-hidden pb-5">
             <p className="bg-mainCL text-white text-lg font-semibold uppercase text-center">
@@ -356,11 +370,18 @@ function OrderTypePay({ onChangeTypePay, typePay, onPayOnline }) {
                 <select
                     className="outline-none border border-gray-300 rounded-md w-full px-1 py-0.5 text-xs font-semibold"
                     onChange={(e) => { onChangeTypePay(e.target.value) }}
+                    value={typePay}
                 >
+                    <option value="" disabled hidden>Chọn hình thức thanh toán</option>
                     <option value="COD">Thanh toán khi nhận hàng</option>
                     <option value="Online">Thanh toán Online ngay</option>
                 </select>
-                {typePay === "Online" ?
+                {typePay === "" &&
+                    <div className="text-center italic font-semibold mt-3">
+                        Thanh toán khi nhận hàng hoặc bạn có thể thanh toán Online trước
+                    </div>
+                }
+                {(typePay != "" && typePay === "Online") &&
                     <div className=" mx-auto flex flex-col items-center gap-3 mt-5">
                         <p>Vui lòng thanh toán đến mã QR bên dưới</p>
                         <picture>
@@ -372,7 +393,8 @@ function OrderTypePay({ onChangeTypePay, typePay, onPayOnline }) {
                             Tôi đã chuyển khoản
                         </button>
                     </div>
-                    :
+                }
+                {(typePay != "" && typePay === "COD") &&
                     <p className="text-center mt-3 font-semibold italic">
                         Người dùng sẽ thanh toán khi nhận hàng
                     </p>
@@ -382,15 +404,6 @@ function OrderTypePay({ onChangeTypePay, typePay, onPayOnline }) {
     )
 }
 
-function QRPayMent() {
-    return (
-        <div>
-            <picture>
-                <img src={QR_img_link} alt="QR pay Online" />
-            </picture>
-        </div>
-    )
-}
 
 
 
