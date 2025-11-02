@@ -37,3 +37,4 @@ EXPOSE 80
 
 # Chạy Nginx (đây là lệnh mặc định của image nginx)
 CMD ["nginx", "-g", "daemon off;"]
+

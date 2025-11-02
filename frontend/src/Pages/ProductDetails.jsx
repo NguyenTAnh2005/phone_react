@@ -88,11 +88,11 @@ function InfoBottomItems({ cls_icon, clr_icon, title, content }) {
 
 function InfoBottom({ product, status }) {
     return (
-        <div>
-            <p className="text-center text-3xl font-semibold bg-mainCL text-white py-3">
+        <div className="rounded-lg w-[95%] mx-auto overflow-hidden">
+            <p className="text-center text-3xl font-semibold  bg-mainCL text-white py-3">
                 Chi tiet san pham
             </p>
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 p-6 bg-gray-50">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 p-6 bg-slate-100 rounded-lg">
                 <InfoBottomItems content={product.phone_chip} title={"Chip"} cls_icon="bi bi-cpu" clr_icon="#2563eb" />
                 <InfoBottomItems content={`${product.phone_battery} mAh`} title={"Pin"} cls_icon="bi bi-battery-full" clr_icon="#16a34a" />
                 <InfoBottomItems content={product.phone_system} title={"Hệ điều hành"} cls_icon="bi bi-android" clr_icon="#22c55e" />

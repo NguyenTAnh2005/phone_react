@@ -1,7 +1,8 @@
 import { useState, version } from "react";
 import { eg_account, list_cart_product, eg_hotline } from "../Data_Test/Data_Home_Test";
-import { priceFormatter } from "../utils/utils";
+import { priceFormatter, strDate } from "../utils/utils";
 
+let QR_img_link = `https://res.cloudinary.com/df5mtvzkn/image/upload/v1762071145/WEB_SELL_PHONE__PROJECT/TEST/Test_IMG/653215d23485b8dbe194_mfuh7w.jpg`;
 
 export function Order({ account = eg_account, hotlineList = eg_hotline, list_product = list_cart_product }) {
 
@@ -40,9 +41,9 @@ export function Order({ account = eg_account, hotlineList = eg_hotline, list_pro
         return 50000;
     }
 
-
     // Form gui data tao Order
-    const total_price_first = initDetail.reduce((acc, d) => acc + d.unit_price, 0);
+    const total_price_first = initDetail.reduce((sum, d) => sum + d.unit_price, 0);
+
     const [formOrderData, setFormOrderData] = useState({
         id: "",
         hotline_id: selectedAddress?.hotline_id || "",
@@ -72,21 +73,38 @@ export function Order({ account = eg_account, hotlineList = eg_hotline, list_pro
         })
     }
 
+    // Xử lý khi thay đổi phương thức thanh toán
+    const [isPaid, setIsPaid] = useState(false);
+    function handlePayOnline() {
+        setIsPaid(true);
+        alert("Bạn đã thanh toán thành công! Do chưa có backend nên dùng tạm cái này!");
+    }
+    const [typePay, setTypePay] = useState("COD");
+    function handleChangeTypePay(typePay_value) {
+        setTypePay(typePay_value);
+        setFormOrderData((prev) => {
+            return { ...prev, type_pay: typePay_value }
+        })
+    }
+
     // Xu ly dat hang
     const handleSubmitOrder = (e) => {
         e.preventDefault();
-        const timeNow = Date.now();
+        const timeNow = new Date(Date.now()).toISOString();
+        const timeRec = new Date(Date.now() + 4 * 24 * 60 * 60 * 1000).toISOString();
         const orderID = `${timeNow}--${account.account_id}--${selectedAddress.hotline_id}`
         // Tạo bản sao dữ liệu mới
         const newOrderData = {
             ...formOrderData,
             id: orderID,
-            buy_time: new Date().toISOString(),
-            rec_time: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString(),
+            buy_time: strDate(timeNow),
+            rec_time: strDate(timeRec),
         };
 
         setFormOrderData(newOrderData);
-
+        if (typePay === "Online" && !isPaid) {
+            return alert("Vui lòng thanh toán hoặc đổi hình thức thanh toán!");
+        }
         alert(`Đặt hàng thành công! Xem request tại Dev Tools!!!`);
         console.log("🧾 ORDER SUBMITTED:", newOrderData);
     }
@@ -96,7 +114,7 @@ export function Order({ account = eg_account, hotlineList = eg_hotline, list_pro
             <form onSubmit={handleSubmitOrder} className="p-4 border rounded space-y-3 animate__animated animate__fadeIn">
                 <h2 className="font-bold text-lg text-center">Thanh toán - mua hàng</h2>
                 <div className="grid grid-cols-10 gap-3">
-                    <div className="col-span-full md:col-span-5">
+                    <div className="col-span-full md:col-span-5 flex flex-col justify-between">
                         <OrderAddress
                             account={account}
                             handleChangeQuantity={handleChangeQuantity}
@@ -104,6 +122,7 @@ export function Order({ account = eg_account, hotlineList = eg_hotline, list_pro
                             selectedAddress={selectedAddress}
                             addressList={addressList}
                         />
+                        <OrderTime />
                     </div>
                     <div className="col-span-full md:col-span-5">
                         <OrderPrice
@@ -113,6 +132,9 @@ export function Order({ account = eg_account, hotlineList = eg_hotline, list_pro
                             handleChangeQuantity={handleChangeQuantity}
                         />
                     </div>
+                </div>
+                <div>
+                    <OrderTypePay onChangeTypePay={handleChangeTypePay} typePay={typePay} onPayOnline={handlePayOnline} />
                 </div>
 
                 <button
@@ -183,37 +205,40 @@ function OrderPrice({ list_product, formOrderData, handleChangeQuantity, calcula
     return (
         <div className="border border-gray-300 rounded-lg overflow-hidden pb-5">
             <p className="bg-mainCL text-white text-lg font-semibold uppercase text-center">
-                2. Tóm tắt đơn hàng
+                3. Tóm tắt đơn hàng
             </p>
-            <table className="border-collapse text-sm">
-                <thead className="uppercase font-medium text-mainCL">
-                    <tr className="">
-                        <th className=" px-4 ">
-                            Tên hàng hóa
-                        </th>
-                        <th className=" px-4 ">
-                            Đơn giá
-                        </th>
-                        <th className=" px-4 ">
-                            Số lượng
-                        </th>
-                        <th className=" px-4 ">
-                            Thành tiền
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {list_product.map((p, i) => (
-                        <OrderDetail
-                            key={p.product_id}
-                            product={p}
-                            value={formOrderData.detail[i].count}
-                            // value là lấy giá trị count của sp đó trongg initDetail cua formOrderData 
-                            onChange={handleChangeQuantity}
-                        />
-                    ))}
-                </tbody>
-            </table>
+            <div className="p-1">
+                <table className="border-collapse text-sm m-0 mx-auto">
+                    <thead className="uppercase font-medium text-mainCL">
+                        <tr className="">
+                            <th className=" px-4 ">
+                                Tên hàng hóa
+                            </th>
+                            <th className=" px-4 ">
+                                Đơn giá
+                            </th>
+                            <th className=" px-4 ">
+                                Số lượng
+                            </th>
+                            <th className=" px-4 ">
+                                Thành tiền
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {list_product.map((p, i) => (
+                            <OrderDetail
+                                key={p.product_id}
+                                product={p}
+                                value={formOrderData.detail[i].count}
+                                // value là lấy giá trị count của sp đó trongg initDetail cua formOrderData 
+                                onChange={handleChangeQuantity}
+                            />
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+
             <div className="px-5 font-semibold mt-5 border-t border-gray-300 ">
                 <div className="flex justify-between">
                     <span>
@@ -247,11 +272,34 @@ function OrderPrice({ list_product, formOrderData, handleChangeQuantity, calcula
         </div>
     )
 }
-function OrderTypePay() {
 
-}
-function OrdeTime() {
+function OrderTime() {
+    const order_time = new Date(Date.now()).toISOString();
+    const receive_time = new Date(Date.now() + 4 * 24 * 60 * 60 * 1000).toISOString();
+    return (
+        <div className="border border-gray-300 rounded-lg overflow-hidden pb-5">
+            <p className="bg-mainCL text-white text-lg font-semibold uppercase text-center">
+                2. Thời gian
+            </p>
+            <div className="mt-3 ml-3">
+                <span className="me-2">
+                    Thời gian đặt hàng:
+                </span>
+                <span className="font-semibold">
+                    {strDate(order_time)}
+                </span>
+            </div>
 
+            <div className="ml-3">
+                <span className="me-2">
+                    Thời gian nhận hàng:
+                </span>
+                <span className="font-semibold">
+                    {strDate(receive_time)}
+                </span>
+            </div>
+        </div>
+    )
 }
 
 function OrderDetail({ product, value, onChange }) {
@@ -296,6 +344,53 @@ function OrderDetail({ product, value, onChange }) {
     )
 }
 
+function OrderTypePay({ onChangeTypePay, typePay, onPayOnline }) {
+
+
+    return (
+        <div className="border border-gray-300 rounded-lg overflow-hidden pb-5">
+            <p className="bg-mainCL text-white text-lg font-semibold uppercase text-center">
+                4. Hình thức thanh toán
+            </p>
+            <div className="p-5">
+                <select
+                    className="outline-none border border-gray-300 rounded-md w-full px-1 py-0.5 text-xs font-semibold"
+                    onChange={(e) => { onChangeTypePay(e.target.value) }}
+                >
+                    <option value="COD">Thanh toán khi nhận hàng</option>
+                    <option value="Online">Thanh toán Online ngay</option>
+                </select>
+                {typePay === "Online" ?
+                    <div className=" mx-auto flex flex-col items-center gap-3 mt-5">
+                        <p>Vui lòng thanh toán đến mã QR bên dưới</p>
+                        <picture>
+                            <img src={QR_img_link} alt="" className="w-52 rounded-md" />
+                        </picture>
+                        <p>STK: VietcomBank - 1027467880 - NGUYEN TUAN ANH</p>
+
+                        <button type="button" className="bg-mainCL text-white px-2 py-1 rounded-md" onClick={onPayOnline}>
+                            Tôi đã chuyển khoản
+                        </button>
+                    </div>
+                    :
+                    <p className="text-center mt-3 font-semibold italic">
+                        Người dùng sẽ thanh toán khi nhận hàng
+                    </p>
+                }
+            </div>
+        </div>
+    )
+}
+
+function QRPayMent() {
+    return (
+        <div>
+            <picture>
+                <img src={QR_img_link} alt="QR pay Online" />
+            </picture>
+        </div>
+    )
+}
 
 
 

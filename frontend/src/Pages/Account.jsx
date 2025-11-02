@@ -118,37 +118,3 @@ function Account_NavToggle({ activeTab, setActiveTab }) {
         </div>
     );
 }
-
-
-export const list_cart_product = [
-    {
-        product_id: "ph_1",
-        phone_name: "Iphone X",
-        variant_id: "ph_1__v1",
-        variant_ph_ram: 3,
-        variant_ph_rom: 64,
-        variant_ph_color: "White",
-        variant_ph_final_price: 9320000,
-        variant_img: "eg_phone"
-    },
-    {
-        product_id: "ph_2",
-        phone_name: "Iphone X",
-        variant_id: "ph_2__v1",
-        variant_ph_ram: 3,
-        variant_ph_rom: 64,
-        variant_ph_color: "White",
-        variant_ph_final_price: 9320000,
-        variant_img: "eg_phone"
-    },
-    {
-        product_id: "ph_3",
-        phone_name: "Iphone X",
-        variant_id: "ph_3__v1",
-        variant_ph_ram: 3,
-        variant_ph_rom: 64,
-        variant_ph_color: "White",
-        variant_ph_final_price: 9320000,
-        variant_img: "eg_phone"
-    },
-]

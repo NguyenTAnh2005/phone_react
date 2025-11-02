@@ -5,6 +5,7 @@ import { list_nav } from "./StaticData/header_data";
 
 
 export function Header() {
+    const location = useLocation();
     const [expand, setExpand] = useState(false);
     const [isLogIn, setIsLogIn] = useState(true);
     function changeMode() {
@@ -16,7 +17,7 @@ export function Header() {
     return (
         <>
             {/* ================== MAIN HEADER ---------LG ========================*/}
-            <div className="flex flex-row justify-between items-center w-full bg-white px-2 sticky top-0 shadow-sm z-50">
+            <div className="flex flex-row justify-between items-center w-full bg-navCL px-2 sticky top-0 shadow-sm z-50">
                 <NavBrand />
                 <NavLink navLinks={list_nav} cls_name="hidden lg:flex lg:gap-7" />
                 <NavActions cls_name="hidden lg:flex lg:gap-5 w-[20%]" />
@@ -24,7 +25,7 @@ export function Header() {
                 <NavAccount isLogIn={isLogIn} cls_name="hidden lg:flex" />
             </div>
             {/*===================MOBILE ====================================== */}
-            <div className={`lg:hidden flex flex-col gap-5 bg-white transition-all duration-500 ease-linear sticky top-12 z-50
+            <div className={`lg:hidden flex flex-col gap-5 bg-navCL transition-all duration-500 ease-linear sticky top-12 z-50
                 overflow-hidden shadow-md w-full lg:w-1/2 pl-5 ml-auto ${expand ? "max-h-[900px]" : "max-h-0"}`}>
                 <NavLink navLinks={list_nav} cls_name="lg:hidden flex flex-col gap-3 mt-5" />
                 <NavActions cls_name="lg:hidden flex flex gap-5 mx-auto" />
@@ -55,8 +56,12 @@ function NavLink({ navLinks, cls_name = "" }) {
     )
 }
 function NavItem({ nav_item, location }) {
+    const isActive = location.pathname === `/${nav_item.content}`;
     return (
-        <li onClick={scrollToTopSmooth} className={`text-base text-gray-400 font-medium relative group hover:text-mainCL transition-colors duration-300 ease-linear ${location.pathname === `/${nav_item.content}` && "text-mainCL"}`}>
+        <li onClick={scrollToTopSmooth}
+            className={`text-base font-medium relative group 
+                 hover:text-mainCL transition-colors duration-300 ease-linear 
+            ${isActive ? "text-mainCL" : "text-gray-400"}`}>
             <Link to={"/" + nav_item.content}>
                 {nav_item.name}
             </Link >

@@ -39,3 +39,16 @@ export function getDate(dateStr) {
     const [day, month, year] = dateStr.split("/");
     return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`
 }
+
+//  Hàm đầu vào là Date chuẩn ISOString => đầu ra ngày tháng năm, forUI? "": + h , phut , s
+
+export function strDate(isOString) {
+    const date = new Date(isOString);
+    // 🗓️ Ngày - Tháng - Năm
+    const day = date.getDate().toString();          // 1
+    const month = (date.getMonth() + 1).toString();   // 11 (do tháng bắt đầu từ 0)
+    const year = date.getFullYear();     // 2025
+    const output = `${day.padStart(2, "0")}/${month.padStart(2, "0")}/${year}`
+
+    return output
+}

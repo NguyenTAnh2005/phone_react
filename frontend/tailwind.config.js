@@ -6,6 +6,7 @@ module.exports = {
     'text-lg',
     'text-xl',
     'text-2xl',
+    `text-mainCL`,
   ],
   content: [
     "./index.html",
@@ -14,11 +15,9 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        "mainCL": "#ff4d00"
+        "mainCL": "#ff4d00",
+        "navCL": "#FFFFFF"
       },
-      backgroundImage: {
-        "saleGradient": "linear-gradient(to right,#ff1b6b,#45caff)",
-      }
     },
   },
   plugins: [],
