@@ -31,7 +31,7 @@ export function Order({ account = eg_account, hotlineList = eg_hotline, list_pro
     const initDetail = list_cart_product.map(p => ({
         variant_id: p.variant_id,
         count: 1,
-        detail_name: `${p.phone_name} ${p.variant_ph_ram}/${p.variant_ph_rom}`,
+        detail_name: `${p.phone_name} ${p.variant_ph_ram}GB/${p.variant_ph_rom}GB`,
         price: p.variant_ph_final_price,
         unit_price: p.variant_ph_final_price,
     }));
@@ -130,7 +130,7 @@ export function Order({ account = eg_account, hotlineList = eg_hotline, list_pro
             <form onSubmit={handleSubmitOrder} className="p-4 border rounded space-y-3 animate__animated animate__fadeIn">
                 <h2 className="font-bold text-lg text-center">Thanh toán - mua hàng</h2>
                 <div className="grid grid-cols-10 gap-3">
-                    <div className="col-span-full md:col-span-5 flex flex-col justify-between">
+                    <div className="col-span-full md:col-span-5 space-y-2">
                         <OrderAddress
                             account={account}
                             handleChangeQuantity={handleChangeQuantity}

@@ -1,26 +1,11 @@
 import React, { useState, useMemo } from "react";
 import { list_orders, eg_hotline } from "../../Data_Test/Data_Home_Test";
-import { priceFormatter } from "../../utils/utils";
+import { priceFormatter, getStateText } from "../../utils/utils";
 // Import component OrderInfo bạn đã tạo
 import OrderInfo from "../OrderInfo";
 
-// Sao chép hàm này từ OrderInfo.jsx để dùng,
-// hoặc bạn có thể chuyển nó vào utils.jsx và export ra
-const getStateText = (state) => {
-    switch (state) {
-        case "PREPARE":
-            return "Chuẩn bị hàng";
-        case "SHIPPING":
-            return "Đang giao";
-        case "DONE":
-            return "Hoàn tất";
-        default:
-            return state;
-    }
-};
-
 // Định nghĩa các tab lọc
-const filterTabs = [
+let List_Tag_Filter = [
     { key: "ALL", label: "Tất cả" },
     { key: "PREPARE", label: "Chuẩn bị hàng" },
     { key: "SHIPPING", label: "Đang giao" },
@@ -28,105 +13,111 @@ const filterTabs = [
 ];
 
 export function Orders() {
-    const [allOrders] = useState(list_orders);
-    const [allAddresses] = useState(eg_hotline);
+    //State lưu dữ DL càn thiết (VD đã res xng từ API) 
+    // Danh sách địa chhir của user, danh sách hóa đơn của user
+    const [userAddress] = useState(eg_hotline);
+    const [listOrder, setListOrder] = useState(list_orders);
+
+    //State lưu đơn hàng để xem chi tiết  cần lưu 2 tham số, orderInfo + address từ hotline_id
+    const [orderSelected, setOrderSelected] = useState(null);
+
+    // trạng thái của hóa đơn 
     const [activeFilter, setActiveFilter] = useState("ALL");
-
-    // State để lưu đơn hàng đang được chọn xem chi tiết
-    const [selectedOrder, setSelectedOrder] = useState(null);
-
-    // Lọc danh sách đơn hàng dựa trên tab đang hoạt động
-    const filteredOrders = useMemo(() => {
+    const handleChangeTabFilter = (value) => {
+        setActiveFilter(value);
+    }
+    // Lọc danh sách hóa đơn dựa trên tag 
+    const FilterdOrders = useMemo(() => {
         if (activeFilter === "ALL") {
-            return allOrders;
+            return listOrder;
         }
-        return allOrders.filter((order) => order.state === activeFilter);
-    }, [activeFilter, allOrders]);
+        return listOrder.filter(order => order.state === activeFilter);
+    }, [listOrder, activeFilter]);
 
-    // Hàm xử lý khi nhấn "Xem chi tiết"
-    const handleViewDetails = (order) => {
-        // Tìm địa chỉ tương ứng với đơn hàng
-        const addressInfo = allAddresses.find(
-            (addr) => addr.hotline_id === order.hotline_id
-        );
-        setSelectedOrder({
+    // Xử lý khi chọn xem  chi tiết
+
+    const handleViewInfo = (order) => {
+        const address = userAddress.find(address => address.hotline_id === order.hotline_id);
+        setOrderSelected({
             orderInfo: order,
-            orderAddressInfo: addressInfo || null, // Truyền địa chỉ tìm được
+            addressInfo: address || null
         });
-    };
-
-    // Hàm xử lý khi nhấn "Quay lại" từ chi tiết đơn hàng
-    const handleBackToList = () => {
-        setSelectedOrder(null);
-    };
-
-    // --- RENDER ---
-
-    // Nếu có đơn hàng được chọn, hiển thị OrderInfo
-    if (selectedOrder) {
-        return (
-            <div className="p-4">
-                <button
-                    onClick={handleBackToList}
-                    className="mb-4 px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700 transition-colors"
-                >
-                    <i className="bi bi-arrow-left me-2"></i>
-                    Quay lại danh sách
-                </button>
-                <OrderInfo
-                    orderInfo={selectedOrder.orderInfo}
-                    orderAddressInfo={selectedOrder.orderAddressInfo}
-                />
-            </div>
-        );
     }
 
-    // Nếu không, hiển thị danh sách đơn hàng và các tab lọc
-    return (
-        <div className="p-4 space-y-4">
-            {/* Thanh Tab Lọc */}
-            <div className="flex border-b border-gray-300">
-                {filterTabs.map((tab) => (
-                    <button
-                        key={tab.key}
-                        onClick={() => setActiveFilter(tab.key)}
-                        className={`py-2 px-4 text-sm font-medium
-                            ${activeFilter === tab.key
-                                ? "border-b-2 border-mainCL text-mainCL"
-                                : "text-gray-500 hover:text-gray-700"
-                            }
-                        `}
-                    >
-                        {tab.label}
-                    </button>
-                ))}
-            </div>
+    // Xử lý khi nhấn "Quay lại" từ chi tiết đơn hàng
+    const handleBackToList = () => {
+        setOrderSelected(null);
+    }
 
-            {/* Danh sách đơn hàng */}
-            <div className="space-y-3">
-                {filteredOrders.length > 0 ? (
-                    filteredOrders.map((order) => (
-                        <OrderItemSummary
+    ////RENDER 
+
+    if (orderSelected != null) {
+        return (
+            <div className="max-h-[300px] overflow-y-scroll relative">
+                <button
+                    onClick={handleBackToList}
+                    className="px-4 py-2 bg-gray-400 text-white font-semibold rounded-md sticky top-3 left-3"
+                >
+                    Quay lại
+                </button>
+                <OrderInfo orderInfo={orderSelected.orderInfo} orderAddressInfo={orderSelected.addressInfo} />
+            </div>
+        )
+    }
+    return (
+        <div className="p-3">
+            <div className="flex justify-evenly">
+                {
+                    List_Tag_Filter.map(tag => (
+                        <FilterTab
+                            key={tag.key}
+                            tag={tag}
+                            activeFilter={activeFilter}
+                            onChangeTabFilter={handleChangeTabFilter} />
+                    ))
+                }
+            </div>
+            <div className="p-2 space-y-4 max-h-[250px] overflow-y-scroll">
+                {
+                    FilterdOrders.map(order => (
+                        <OrderSummary
                             key={order.id}
                             order={order}
-                            onViewDetails={() => handleViewDetails(order)}
+                            onHandleViewInfo={handleViewInfo}
                         />
                     ))
-                ) : (
-                    <p className="text-center text-gray-500 p-5">
-                        Không có đơn hàng nào trong mục này.
+                }
+                {
+                    FilterdOrders.length == 0 &&
+                    <p className="font-semibold text-center mt-5 text-mainCL">
+                        Không có đơn hàng nào đang ở trạng thái này!
+                        <i className="bi bi-emoji-frown ms-2 text-xl"></i>
                     </p>
-                )}
+                }
             </div>
         </div>
-    );
+    )
 }
 
-// Component con để hiển thị tóm tắt một đơn hàng
-function OrderItemSummary({ order, onViewDetails }) {
+// UI cho tag lọc hóa đơn 
+export function FilterTab({ tag, activeFilter, onChangeTabFilter }) {
+    const active = tag.key === activeFilter;
+    return (
+        <button
+            onClick={() => { onChangeTabFilter(tag.key) }}
+            className={`py-2 font-bold text-sm ${active ? "text-mainCL border-b-2 border-mainCL" : "text-gray-400"}`}
+        >
+            {tag.label}
+        </button>
+    )
+}
+
+// UI cho hóa đơn
+
+export function OrderSummary({ order, onHandleViewInfo }) {
     return (
         <div className="border border-gray-300 rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow">
-            <div className="flex flex-col md:flex-row justify-between md:items-center space-y-2 md:space-y-0">
+            <div className="flex flex-col lg:flex-row justify-between lg:items-center space-y-2 lg:space-y-0">
                 <div>
                     <p className="font-semibold text-gray-800">
                         Mã đơn hàng:{" "}
@@ -134,6 +125,9 @@ function OrderItemSummary({ order, onViewDetails }) {
                     </p>
                     <p className="text-sm text-gray-600">
                         Ngày đặt: {order.buy_time}
+                    </p>
+                    <p className="text-sm text-gray-600">
+                        Ngày nhận: {order.rec_time}
                     </p>
                 </div>
                 <div className="text-sm text-gray-600">
@@ -149,12 +143,12 @@ function OrderItemSummary({ order, onViewDetails }) {
                     </span>
                 </div>
                 <button
-                    onClick={onViewDetails}
+                    onClick={() => { onHandleViewInfo(order) }}
                     className="px-3 py-1 bg-mainCL text-white rounded text-sm hover:bg-opacity-90"
                 >
                     Xem chi tiết
                 </button>
             </div>
         </div>
-    );
+    )
 }

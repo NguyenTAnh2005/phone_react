@@ -1,20 +1,7 @@
 import React from "react";
-import { priceFormatter } from "../utils/utils";
+import { priceFormatter, getStateText } from "../utils/utils";
 import { order, orderAddress } from "../Data_Test/Data_Home_Test";
 
-// Hàm đổi trạng thái cho dễ đọc
-const getStateText = (state) => {
-    switch (state) {
-        case "PREPARE":
-            return "Chuẩn bị hàng";
-        case "SHIPPING":
-            return "Đang giao";
-        case "DONE":
-            return "Hoàn tất";
-        default:
-            return state;
-    }
-};
 
 export default function OrderInfo({ orderInfo = order, orderAddressInfo = orderAddress }) {
 

@@ -52,3 +52,17 @@ export function strDate(isOString) {
 
     return output
 }
+
+// Hàm chuyển đỏi trạng thái đơn hàng ra UI
+export const getStateText = (state) => {
+    switch (state) {
+        case "PREPARE":
+            return "Chuẩn bị hàng";
+        case "SHIPPING":
+            return "Đang giao";
+        case "DONE":
+            return "Hoàn tất";
+        default:
+            return state;
+    }
+};

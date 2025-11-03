@@ -27,7 +27,6 @@ export const eg_phone =
     variant_state: "Máy bị xước nhẹ bên ngoài, pin đã qua sử dụng một thời gian, không tặng kèm sạc và phụ kiện nào khác!"
 }
 
-
 export const eg_deal =
 {
     product_id: "ph_1",
@@ -55,7 +54,6 @@ export const eg_deal =
     variant_ph_final_price: 3750000,
     variant_img: "eg_phone",
 }
-
 
 export const eg_article =
 {
@@ -232,44 +230,8 @@ export const cart_list_product = [
     }
 ]
 
+// Danh sách sp được chọn dể  mua chung khi ngươi dùng mua trng giỏ hàng - sẽ thấy trong ỏder
 export const list_cart_product = [
-    {
-        product_id: "ph_1",
-        phone_name: "Iphone X",
-        variant_id: "ph_1__v1",
-        variant_ph_ram: 3,
-        variant_ph_rom: 64,
-        variant_ph_color: "White",
-        variant_ph_final_price: 4995000,
-        variant_img: "eg_phone"
-    },
-    {
-        product_id: "ph_2",
-        phone_name: "Iphone X",
-        variant_id: "ph_2__v1",
-        variant_ph_ram: 3,
-        variant_ph_rom: 64,
-        variant_ph_color: "White",
-        variant_ph_final_price: 4995000,
-        variant_img: "eg_phone"
-    },
-    {
-        product_id: "ph_3",
-        phone_name: "Iphone X",
-        variant_id: "ph_3__v1",
-        variant_ph_ram: 3,
-        variant_ph_rom: 64,
-        variant_ph_color: "White",
-        variant_ph_final_price: 4995000,
-        variant_img: "eg_phone"
-    },
-]
-
-
-/// Trang xem laij thong tin hoa don
-
-// Sao chep list_ product ben tren 
-export const orderDetailPhone = [
     {
         product_id: "ph_1",
         phone_name: "Iphone X",
@@ -346,15 +308,6 @@ export const orderAddress = {
 };
 
 
-
-//// Trang Orders cua account 
-// ... (code cũ của bạn)
-
-// Object mẫu — địa chỉ giao hàng
-
-
-// ======== THÊM CODE MỚI TỪ ĐÂY ========
-
 // Danh sách đơn hàng giả lập cho trang Account
 export const list_orders = [
     {
@@ -410,13 +363,13 @@ export const list_orders = [
         ],
     },
     {
-        id: "2025-10-28T14:00:00.000Z--acc_001--hl_001",
+        id: "2025-10-28T14:00:00.000Z--acc_001--hl_003",
         account_id: "acc_001",
-        hotline_id: "hl_001", // Nối với eg_hotline
+        hotline_id: "hl_003", // Nối với eg_hotline
         buy_time: "28/10/2025",
         rec_time: "01/11/2025",
         type_pay: "Online",
-        state: "PREPARE", // Đang chuẩn bị
+        state: "DONE", // Đang chuẩn bị
         total_price: 4995000,
         detail: [
             {

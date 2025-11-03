@@ -28,7 +28,7 @@ export function Account() {
         <>
             {scrollToTopSmooth()}
             <div className="flex flex-col py-10">
-                <div className="flex flex-col justify-evenly items-center md:flex-row md:gap-10 mb-10 bg-white">
+                <div className="flex flex-col justify-evenly items-center md:flex-row gap-5 md:gap-10 mb-10 bg-white">
                     <UserProfileInfo account={eg_account} />
                     <UserOrderStats order_stats={eg_order_stats} />
                 </div>
