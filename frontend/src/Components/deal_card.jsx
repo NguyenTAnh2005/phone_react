@@ -1,6 +1,7 @@
+import { Link } from "react-router-dom"
 import { priceFormatter } from "../utils/utils"
 import { ButtonActiveLink } from "./Button"
-export function DealCard({ p_sale, baselink, max_width = "325px", fs_title = "lg", fs_text = "base", fs_desc = "sm", hover_out = true }) {
+export function DealCard({ p_sale, baselink, onHandleViewInfoDeal, max_width = "325px", fs_title = "lg", fs_text = "base", fs_desc = "sm", hover_out = true }) {
     return (
         <div
             className={`w-full max-w-[${max_width}] border bg-white border-gray-300 rounded-xl mx-auto overflow-hidden pb-5 shadow-sm relative 
@@ -37,11 +38,14 @@ export function DealCard({ p_sale, baselink, max_width = "325px", fs_title = "lg
                         Save {p_sale.variant_ph_org_price - p_sale.variant_ph_final_price} ₫
                         ({Math.round(100 - (p_sale.variant_ph_final_price / p_sale.variant_ph_org_price) * 100)}% off)</span>
                 </div>
-                <ButtonActiveLink
-                    link={"/product-details"}
-                    content={"View Detail"}
-                    classTail={`bg-mainCL mt-5 text-white text-center py-2 rounded-xl text-${fs_title} font-medium`}
-                />
+                <button
+                    onClick={() => onHandleViewInfoDeal(p_sale.variant_id)}
+                    className="bg-mainCL mt-5 text-white text-center py-2 rounded-xl text-${fs_title} font-medium"
+                >
+                    <Link to={"/ProductDetails"}>
+                        View Detail
+                    </Link>
+                </button>
             </div>
             <div className={`absolute bg-[#ff0000] text-white capitalize top-3 right-3 px-3 py-[0.5] rounded-full text-${fs_text}`}>
                 <i className="bi bi-tag"></i>

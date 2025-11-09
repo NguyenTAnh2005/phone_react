@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { eg_account, list_cart_product, eg_hotline } from "../Data_Test/Data_Home_Test";
 import { priceFormatter, strDate, scrollToTopSmooth } from "../utils/utils";
+import { Count } from "../Components/Count";
 import { useNavigate } from "react-router-dom";
 
 let QR_img_link = `https://res.cloudinary.com/df5mtvzkn/image/upload/v1762071145/WEB_SELL_PHONE__PROJECT/TEST/Test_IMG/653215d23485b8dbe194_mfuh7w.jpg`;
@@ -338,19 +339,11 @@ function OrderDetail({ product, value, onChange }) {
             </td>
             {/* Số lượng */}
             <td className="px-4 py-2">
-                <div className="flex font-semibold text-mainCL justify-between">
-                    <i
-                        onClick={handleMinus}
-                        className="bi bi-dash-square"
-                    >
-                    </i>
-                    <span className="font-semibold text-center">{value}</span>
-                    <i
-                        onClick={handlePlus}
-                        className="bi bi-plus-square"
-                    >
-                    </i>
-                </div>
+                <Count
+                    value={value}
+                    onPlus={handlePlus}
+                    onMinus={handleMinus}
+                />
             </td>
             {/* Tong tien  */}
             <td className=" text-end font-semibold">

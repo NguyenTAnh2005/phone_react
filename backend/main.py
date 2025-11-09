@@ -1,36 +1,47 @@
-from fastapi import FastAPI
-from database import engine,SessionLocal
+from fastapi import FastAPI, Depends, HTTPException
+from sqlalchemy.orm import Session
+
+# Import tất cả "linh kiện" chúng ta đã tạo
 import model
+from database import engine, SessionLocal  # <-- Import "Người Thu Ngân"
 
-# --- 3. Dòng "Thần Kỳ" ---
-# Dòng này ra lệnh cho SQLAlchemy:
-# "Hãy nhìn vào tất cả các Class kế thừa từ Base (trong file models.py)
-# và TẠO TẤT CẢ các bảng đó trong CSDL (sử dụng 'engine' để kết nối)"
-
+# --- Dòng "Thần Kỳ" ---
+# (Vẫn giữ lại để tạo bảng khi khởi động)
 model.Base.metadata.create_all(bind=engine)
 
-# --- Tạo ứng dụng FastAPI cơ bản ---
+# --- Khởi tạo FastAPI ---
 app = FastAPI()
 
-db=SessionLocal()
+# --- 1. "Hệ thống Bơm" (Dependency Injection) ---
+# Nó sẽ tự động tạo "cái ly" (session) MỚI cho mỗi API gọi đến
+def get_db():
+    db = SessionLocal() # Tạo "cái ly" MỚI
+    try:
+        yield db  # Đưa "cái ly" cho API dùng
+    finally:
+        db.close() # Vứt "cái ly" đi sau khi API dùng xong
 
 @app.get("/")
 async def read_root():
     return {"Hello": "World"}
 
+# db: Session = Depends(get_db) <-- "Bơm" cái ly mới vào đây
 @app.get("/getProduct/")
-async def get_product():
-    products=db.query(model.Product).all()
+def get_product(db: Session = Depends(get_db)):
+    products = db.query(model.Product).all()
     return dict(products=products)
+
 @app.get("/getCompany/")
-async def get_company():
-    companies=db.query(model.Company).all()
+def get_company(db: Session = Depends(get_db)):
+    companies = db.query(model.Company).all()
     return dict(companies=companies)
+
 @app.get("/getAccount/")
-async def get_account():
-    accounts=db.query(model.Account).all()
+def get_account(db: Session = Depends(get_db)):
+    accounts = db.query(model.Account).all()
     return dict(accounts=accounts)
+
 @app.get("/getFavorite/")
-async def get_favorite():
-    favorites=db.query(model.Favorite).all()
+def get_favorite(db: Session = Depends(get_db)):
+    favorites = db.query(model.Favorite).all()
     return dict(favorites=favorites)

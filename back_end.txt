@@ -1,0 +1,66 @@
+### 🗺️ Bản Đồ 5 Chặng 
+
+#### Chặng 1: Nền Móng & Kết Nối (Foundation & Connection)
+* **Mục tiêu:** Giúp code Python "nói chuyện" được với CSDL MySQL.
+* **Liên hệ thực tế:** Xây "móng" và lắp đặt "đường ống nước" (`engine`) và "vòi nước" (`SessionLocal`) cho "Nhà Hàng" của bạn.
+* **Các file của bạn:**
+    * **`.env`:** Là một "tờ giấy" bí mật, cất "địa chỉ" (`DB_URL`) của CSDL, không cho người ngoài biết.
+    * **`database.py`:** Đây là file "Kỹ thuật".
+        1.  `load_dotenv()`: Đọc "tờ giấy" bí mật `.env`.
+        2.  `create_engine(...)`: Xây "Cỗ máy" (Engine) - tức là lắp "đường ống nước" chính tới CSDL. Đây là loại "Đầu Bếp" **SYNC** (Đồng bộ) mà chúng ta đã nói.
+        3.  `SessionLocal = ...`: Tạo ra "Người Thu Ngân" (hoặc "Vòi Nước") - thứ sẽ tạo ra các "phiên làm việc" (cái ly) sau này.
+
+---
+
+#### Chặng 2: "Phiên Dịch" CSDL (ORM - Object-Relational Mapper)
+* **Mục tiêu:** "Vẽ" lại CSDL (gồm các bảng `company`, `product`...) bằng code Python (dưới dạng các `Class`).
+* **Liên hệ thực tế:** Bạn (chủ nhà hàng) viết ra "Thực Đơn" (Menu). Bạn nhìn vào "Nguyên liệu" (CSDL) và viết ra các "Món ăn" (Classes) mà nhà hàng sẽ phục vụ.
+* **Các file của bạn:**
+    * **`model.py`:** Đây chính là "Thực Đơn" (Menu) của bạn.
+        * `class Company(Base):` là một "Món ăn" tên `Company`.
+        * `class Product(Base):` là "Món ăn" tên `Product`.
+        * `relationship(...)` là các "ghi chú" trong menu, ví dụ: "Món `Product` này đi kèm với Món `Company`".
+    * **`main.py`:** Dòng `model.Base.metadata.create_all(bind=engine)` là lệnh "Gửi Thực Đơn này cho Đầu Bếp (CSDL) để ông ấy xác nhận."
+---
+
+#### Chặng 3: Mở Cửa "Nhà Hàng" (CRUD APIs)
+Đây là chặng lớn nhất và là nơi bạn đang đứng.
+
+* **Mục tiêu:** Tạo các "cửa" (API) để "Khách hàng" (Frontend React) có thể vào "đọc Menu" (GET) hoặc "gọi món" (POST).
+* **Liên hệ thực tế:** Vận hành nhà hàng. Đây là phần phức tạp nhất. Chúng ta phải giải quyết 3 vấn đề: **An Toàn**, **Hiệu Quả**, và **Quy Trình**.
+
+##### 3a. Vấn đề An Toàn (Lỗi "Dùng Chung Ly")
+* **Lý thuyết:** Không để 1000 khách hàng dùng chung 1 "cái ly".
+* **Giải pháp:** Lắp "Cái Vòi Nước Tự Động" (`get_db`).
+* **File của bạn:** `main.py`. Code `def get_db(): ... yield db` và `Depends(get_db)` chính là giải pháp này.
+
+##### 3b. Do mới học nên sử dụng sync để làm quen
+
+##### 3c. Vấn đề Quy Trình (Schemas - "Đơn Hàng")
+* **Đây là bước bạn đang hỏi và chưa code.**
+* **Lý thuyết:** Khách hàng (Frontend) không được phép chạy vào "Bếp" (`model.py`). Họ phải được phát một "Tờ Giấy Ghi Order" (Schema) và chỉ được ghi vào đó.
+* **Liên hệ thực tế:**
+    1.  **Bảo mật:** "Tờ Giấy" (Schema) sẽ không có ô "Mật khẩu" (`password` của `Account`), dù trong "Bếp" (`model.py`) có. Điều này giúp bảo vệ thông tin nhạy cảm.
+    2.  **Xác thực:** "Tờ Giấy" (Schema) có ghi: "Tên món (`name`) không được để trống". Nếu khách hàng nộp giấy mà không ghi tên, "Phục Vụ" (FastAPI) sẽ tự động từ chối.
+* **File của bạn:** `schemas.py` (hiện đang trống). Chúng ta sẽ *tạo* file này để "vẽ" ra các "Tờ Giấy Ghi Order". Ví dụ: `class CompanyCreate(BaseModel): ...`
+
+##### 3d. Tạo "Cửa" (Các API - CRUD)
+* **Lý thuyết:** Dùng `main.py` để tạo các "cửa" ra vào.
+* **Liên hệ thực tế:**
+    * **READ (`@app.get`)**: "Cửa" để khách hàng **Đọc** "Menu" (ví dụ: `get_company`).
+    * **CREATE (`@app.post`)**: "Cửa" để khách hàng **Nộp** "Tờ Giấy Ghi Order" (Schema) để tạo món mới (ví dụ: `create_company`).
+    * **UPDATE (`@app.put`)**: "Cửa" để khách hàng **Sửa** món đã gọi.
+    * **DELETE (`@app.delete`)**: "Cửa" để khách hàng **Hủy** món.
+
+#### Chặng 4: "Người Gác Cổng" (Authentication)
+* **Mục tiêu:** Quản lý "Khách VIP" (User đã đăng nhập).
+* **Liên hệ thực tế:** Thuê một "Bảo vệ" đứng ở cửa.
+    1.  Khách hàng đưa "email/password" (từ `model.Account`) cho "Bảo vệ" tại cửa `/login`.
+    2.  "Bảo vệ" kiểm tra và phát cho khách một "Cái Vé" (JWT Token).
+    3.  Khi khách muốn vào "Khu VIP" (ví dụ: API `/getFavorite` để xem món yêu thích), họ phải "giơ Vé" lên. "Bảo vệ" (FastAPI) sẽ kiểm tra "Vé" trước khi cho vào.
+
+#### Chặng 5: "Triển Khai" (Deployment)
+* **Mục tiêu:** Đưa "Nhà Hàng" của bạn lên Internet.
+* **Liên hệ thực tế:** Chuyển "Nhà Hàng" từ "bếp ăn tại nhà" (localhost:8000) ra "mặt tiền" (Vercel, Render...) để mọi người trên thế giới đều có thể truy cập.
+
+

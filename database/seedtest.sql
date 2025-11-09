@@ -1,5 +1,7 @@
 
 GRANT ALL PRIVILEGES ON testFastAPI.* TO 'phone_app'@'localhost';
+use test;
+drop table company;
 
 -- Thêm công ty
 INSERT INTO company (name, description) VALUES

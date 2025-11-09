@@ -9,19 +9,37 @@ import { eg_phone, eg_deal, eg_article } from "../Data_Test/Data_Home_Test"
 import { ButtonActiveLink } from "../Components/Button";
 import { data_service } from "./StaticData/Home_data";
 
+// DL gia lap API
+import { List_product_eg, List_deal_eg, List_article_eg } from "../Data_Test/HOME";
+
 export function Home() {
 
-    const base_link = "https://res.cloudinary.com/df5mtvzkn/image/upload/q_auto,f_auto/WEB_SELL_PHONE__PROJECT/TEST/Test_IMG/"
-    const copy__products = [];
-    const copy__deals = [];
-    const copy__articles = [];
-    // populate sample product cards
-    for (let i = 0; i < 6; i++) {
-        copy__products.push(<ProductCard key={"p" + i} product={eg_phone} baselink={base_link} />)
-        copy__deals.push(<DealCard baselink={base_link} key={"d" + i} p_sale={eg_deal} />)
-        copy__articles.push(<ArticleCard article={eg_article} key={"a" + i} baselink={base_link} />)
+    const handleSeeInfoProduct = (id) => {
+        alert("Ban muon xem thong tin san pham co id la: " + id);
     }
-    //
+
+    const base_link = "https://res.cloudinary.com/df5mtvzkn/image/upload/q_auto,f_auto/WEB_SELL_PHONE__PROJECT/TEST/Test_IMG/"
+    const copy__products = List_product_eg.listProduct.map(p => {
+        return <ProductCard
+            key={p.variant_id} product={p}
+            baselink={base_link}
+            onHandleSeeInfo={handleSeeInfoProduct}
+        />
+    });
+    const copy__deals = List_deal_eg.listDeal.map(d => {
+        return <DealCard
+            baselink={base_link}
+            key={d.variant_id}
+            p_sale={d}
+            onHandleViewInfoDeal={handleSeeInfoProduct}
+        />
+    });
+    const copy__articles = List_article_eg.listArticle.map(a => {
+        return <ArticleCard
+            article={a}
+            baselink={base_link}
+        />
+    });
 
     return (
         <>

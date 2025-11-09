@@ -1,21 +1,27 @@
 import { DealCard } from "../Components/deal_card"
-import { eg_deal } from "../Data_Test/Data_Home_Test"
 import { scrollToTopSmooth } from "../utils/utils"
+
+// DL GIA LAP CHO 1 cai 
+import { deal_eg } from "../Data_Test/DEALS";
 
 export function Deals() {
     const base_link = "https://res.cloudinary.com/df5mtvzkn/image/upload/q_auto,f_auto/WEB_SELL_PHONE__PROJECT/TEST/Test_IMG/";
 
+    const handleSeeInfoProduct = (id) => {
+        alert("Ban muon xem thong tin san pham co id la: " + id);
+    }
+
     const dealsList = [];
     for (let i = 0; i < 10; i++) {
         dealsList.push(
-            <DealCard key={"deal" + i} baselink={base_link} p_sale={eg_deal}
+            <DealCard key={"deal" + i} baselink={base_link} p_sale={deal_eg} onHandleViewInfoDeal={handleSeeInfoProduct}
                 max_width="200px" fs_title={"base"} fs_text={"sm"} fs_desc={"xs"} hover_out={false} />
         );
     }
     const dealsListWeek = [];
     for (let i = 0; i < 5; i++) {
         dealsListWeek.push(
-            <DealCard key={"deal" + i} baselink={base_link} p_sale={eg_deal}
+            <DealCard key={"deal" + i} baselink={base_link} p_sale={deal_eg} onHandleViewInfoDeal={handleSeeInfoProduct}
                 max_width="200px" fs_title={"base"} fs_text={"sm"} fs_desc={"xs"} hover_out={false} />
         );
     }
