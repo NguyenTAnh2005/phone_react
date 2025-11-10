@@ -84,10 +84,12 @@ export function CartProduct({ cart_item, baselink, onIncrease, onDecrease, check
                             onPlus={onIncrease}
                             onMinus={onDecrease}
                         />
+
                         <p className="text-base text-mainCL font-semibold">
                             {priceFormatter(cart_item.variant_ph_final_price)} đ
                         </p>
                     </div>
+
                 </div>
             </div>
         </div>

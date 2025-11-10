@@ -1,150 +1,194 @@
 import { useEffect, useState } from "react";
 // DL gia JSON LOAD LEN
-import { listCartItems as mockData } from "../Data_Test/CARTS"; // Đổi tên để rõ ràng
+import { cart_item, listCartItems as mockData } from "../Data_Test/CARTS"; // Đổi tên để rõ ràng
 import { scrollToTopSmooth } from "../utils/utils";
-
-// --- Thêm hàm giả lập priceFormatter để code chạy được ---
-const priceFormatter = (price) => {
-    return new Intl.NumberFormat('vi-VN').format(price);
-}
-// --------------------------------------------------------
-
+import { CartProduct } from "../Components/product_card";
 
 export function Cart() {
     const [listCartItem, setListCartItem] = useState([]);
-    // 💡 Thay đổi 1: Chỉ lưu ID của các sp được chọn. Sạch sẽ và dễ quản lý hơn.
-    const [selectedVariantIds, setSelectedVariantIds] = useState([]);
+    const [listSelected, setListSelected] = useState([]);
 
-    const fetched_cart_items = () => {
-        // FETCH API GET TAI DAY
-        // GIA LAP
-        const copy_listCartItem = mockData.listCartItems; // Lấy từ mock data đã import
+    // State này sẽ là "nguồn chân lý" cho các thay đổi
+    // Dạng: [{ variant_id: 1, new_count: 3 }, { variant_id: 2, new_count: 1 }]
+    const [listChangeCount, setListChangeCount] = useState([]);
+
+    const base_link = "https://res.cloudinary.com/df5mtvzkn/image/upload/q_auto,f_auto/WEB_SELL_PHONE__PROJECT/TEST/Test_IMG/";
+
+    const fetchListCartItemAPI = () => {
+        // fetch API here
+        // Gia lap bang dl co san 
+        const copy_listCartItem = mockData.listCartItems;
+        console.log("Du lieu tai moi la: ", copy_listCartItem);
         setListCartItem(copy_listCartItem);
+        scrollToTopSmooth();
     }
 
-    // Load Du lieu khi moi tai trang
-    useEffect(() => { fetched_cart_items(); }, []);
+    // Sửa lỗi: Dùng useEffect, không dùng useState để fetch
+    useEffect(() => {
+        fetchListCartItemAPI();
+    }, [])
 
-    // 💡 Thay đổi 2: Sửa logic handleSelect, giờ chỉ làm việc với 'variant_id'
-    const handleSelect = (variant_id) => {
-        setSelectedVariantIds((prev) => {
-            // Nếu đã có ID trong mảng -> Bỏ ra (deselect)
-            if (prev.includes(variant_id)) {
-                return prev.filter((id) => id !== variant_id);
-            }
-            // Nếu chưa có -> Thêm vào (select)
-            else {
-                return [...prev, variant_id];
+    // SỬA THÀNH (Logic toggle check/uncheck):
+    const handleSelect = (id) => {
+        setListSelected((prevSelected) => {
+            // Kiểm tra xem ID đã có trong mảng chưa
+            if (prevSelected.includes(id)) {
+                // Nếu đã có -> bỏ check (lọc nó ra)
+                return prevSelected.filter(itemId => itemId !== id);
+            } else {
+                // Nếu chưa có -> check (thêm nó vào)
+                return [...prevSelected, id];
             }
         });
     }
 
-    // 💡 Thay đổi 3: Hàm xử lý tăng/giảm số lượng (ĐÂY LÀ PHẦN TRẢ LỜI CÂU HỎI CỦA BẠN)
-    const handleQuantityChange = (variant_id, new_count) => {
-        // Chỉ cho phép số lượng >= 1
-        if (new_count < 1) return;
+    // --- LOGIC CẬP NHẬT COUNT ---
 
-        // 1. Cập nhật state local ngay lập tức (để UI mượt)
-        setListCartItem((prevList) =>
-            prevList.map((item) =>
-                item.variant_id === variant_id
-                    ? { ...item, cart_count: new_count } // Tìm đúng item và cập nhật count
-                    : item
-            )
-        );
+    // 1. Hàm "thông minh" (Upsert) để cập nhật danh sách thay đổi
+    const updateChangeList = (variantId, newCount) => {
+        setListChangeCount(prevChanges => {
+            const existingChangeIndex = prevChanges.findIndex(c => c.variant_id === variantId);
 
-        // 2. (Giả lập) Gửi API lên server
-        // Trong thực tế, bạn sẽ dùng 'debounce' ở đây
-        console.log(`(Giả lập API) Cập nhật variant_id ${variant_id} lên số lượng ${new_count}`);
+            if (existingChangeIndex > -1) {
+                // ĐÃ có trong list -> cập nhật count
+                const updatedChanges = [...prevChanges]; // Sao chép mảng
+                updatedChanges[existingChangeIndex] = { ...updatedChanges[existingChangeIndex], new_count: newCount };
+                return updatedChanges;
+            } else {
+                // CHƯA có -> thêm mới
+                return [...prevChanges, { "variant_id": variantId, "new_count": newCount }];
+            }
+        });
+    };
+
+    // 2. Sửa handlePlus
+    const handlePlus = (id) => {
+        // Tìm số lượng mới
+        const itemToUpdate = listCartItem.find(item => item.variant_id === id);
+        const newCount = itemToUpdate.cart_count + 1;
+
+        // Cập nhật UI (listCartItem)
+        const copy_listCartItem = listCartItem.map(item => {
+            if (item.variant_id === id) {
+                return { ...item, cart_count: newCount };
+            }
+            return item;
+        });
+        setListCartItem(copy_listCartItem);
+
+        // Cập nhật danh sách "dirty" (listChangeCount)
+        updateChangeList(id, newCount);
     }
 
-    // Hàm helper cho nút +
-    const handleIncrease = (variant_id) => {
-        const item = listCartItem.find(p => p.variant_id === variant_id);
-        if (item) {
-            handleQuantityChange(variant_id, item.cart_count + 1);
+    // 3. Sửa handleMinus
+    const handleMinus = (id) => {
+        const itemToUpdate = listCartItem.find(item => item.variant_id === id);
+
+        // Kiểm tra trước khi làm bất cứ điều gì
+        if (itemToUpdate.cart_count <= 1) {
+            alert("Gia tri nho nhat cho phep la 1! Hay xoa san pham cart Instead!");
+            return; // Dừng hàm, không làm gì cả
         }
+
+        // Nếu qua được, nghĩa là CÓ thay đổi
+        const newCount = itemToUpdate.cart_count - 1;
+
+        // Cập nhật UI
+        const copy_listCartItem = listCartItem.map(item => {
+            if (item.variant_id === id) {
+                return { ...item, cart_count: newCount };
+            }
+            return item;
+        });
+        setListCartItem(copy_listCartItem);
+
+        // Cập nhật danh sách "dirty"
+        updateChangeList(id, newCount);
     }
 
-    // Hàm helper cho nút -
-    const handleDecrease = (variant_id) => {
-        const item = listCartItem.find(p => p.variant_id === variant_id);
-        if (item && item.cart_count > 1) { // Chỉ giảm khi > 1
-            handleQuantityChange(variant_id, item.cart_count - 1);
-        }
-    }
+    // --- LOGIC CÁC NÚT HÀNH ĐỘNG ---
 
+    // 4. Tính toán xem có thay đổi chưa lưu hay không
+    const hasUnsavedChanges = listChangeCount.length > 0;
 
-    // 💡 Thay đổi 4: handleDelete giờ sẽ log ID và cập nhật lại UI
+    // 5. Hoàn thiện các hàm
     const handleDelete = () => {
-        if (selectedVariantIds.length === 0) {
-            alert("Bạn chưa chọn sản phẩm nào để xóa!");
+        if (hasUnsavedChanges) {
+            alert("Bạn có thay đổi số lượng chưa lưu. Vui lòng 'Lưu thay đổi' hoặc tải lại trang để hủy.");
             return;
         }
 
-        alert("Đã xóa các sản phẩm được chọn. Xem thông tin bên console!");
-        console.log("Cac variant_id duoc xoa: ", selectedVariantIds);
+        if (listSelected.length === 0) {
+            alert("Bạn chưa chọn sản phẩm nào để xóa.");
+            return;
+        }
 
-        // (Giả lập API) Gửi 'selectedVariantIds' lên server để xóa
-        // ...
+        console.log("--- GỬI API XÓA ---");
+        console.log(listSelected);
+        // ... gọi API xóa ...
+        alert("Đã gửi yêu cầu XÓA các ID: " + listSelected.join(", "));
+    };
 
-        // Sau khi API thành công, cập nhật UI:
-        setListCartItem((prev) =>
-            prev.filter((item) => !selectedVariantIds.includes(item.variant_id))
-        );
-        // Xóa các lựa chọn
-        setSelectedVariantIds([]);
-    }
-
-    // 💡 Thay đổi 5: handleCheckout log đúng các ID
     const handleCheckout = () => {
-        if (selectedVariantIds.length === 0) {
-            alert("Bạn chưa chọn sản phẩm nào để mua!");
+        if (hasUnsavedChanges) {
+            alert("Bạn có thay đổi số lượng chưa lưu. Vui lòng 'Lưu thay đổi' hoặc tải lại trang để hủy.");
             return;
         }
 
-        alert("Bạn muốn mua ngay sản phẩm được chọn, xem thông tin bên console!");
-        console.log("Cac variant_id duoc chọn mua ngay: ", selectedVariantIds);
-    }
+        if (listSelected.length === 0) {
+            alert("Bạn chưa chọn sản phẩm nào để mua.");
+            return;
+        }
 
-    const base_link = "https://res.cloudinary.com/df5mtvzkn/image/upload/q_auto,f_auto/WEB_SELL_PHONE__PROJECT/TEST/Test_IMG/"
+        console.log("--- GỬI API MUA HÀNG ---");
+        console.log(listSelected);
+        // ... gọi API mua hàng ...
+        alert("Đã gửi yêu cầu MUA HÀNG các ID: " + listSelected.join(", "));
+    };
 
-    // 💡 Thay đổi 6: Sửa lỗi `listProduct` -> `listCartItem`
-    const copy_arr = listCartItem.map(p => {
-        return (
-            <CartProduct
-                baselink={base_link}
-                // 💡 Thay đổi 7: Sửa lỗi prop 'product' -> 'cart_item'
-                cart_item={p}
-                key={`${p.product_id}-${p.variant_id}`}
-                // 💡 Thay đổi 8: Logic 'checked' và 'onChange' dựa trên 'selectedVariantIds'
-                checked={selectedVariantIds.includes(p.variant_id)}
-                onChange={() => { handleSelect(p.variant_id) }}
-                // 💡 Thay đổi 9: Truyền hàm xử lý số lượng xuống
-                onIncrease={() => handleIncrease(p.variant_id)}
-                onDecrease={() => handleDecrease(p.variant_id)}
-            />)
-    })
+    const handleChangeCount = () => {
+        if (!hasUnsavedChanges) {
+            console.log("Không có gì để lưu.");
+            return;
+        }
+
+        console.log("--- GỬI API CẬP NHẬT SỐ LƯỢNG ---");
+        console.log(listChangeCount);
+
+        // ... Giả lập gọi API thành công ...
+        alert("Đã lưu thay đổi số lượng!");
+
+        // Reset lại danh sách thay đổi
+        setListChangeCount([]);
+    };
+
     return (
         <>
-            {scrollToTopSmooth()}
             <div className="bg-slate-50 animate__animated animate_fadeIn py-5">
-                <div className="text-center">
-                    <div className="flex font-bold text-5xl text-mainCL gap-5 justify-center">
-                        <i className="bi bi-cart-check"></i>
-                        <p className="">
-                            Giỏ hàng
-                        </p>
-                    </div>
-                    <p className="text-slate-800 font-semibold text-xl mt-3">
-                        Kiểm tra các mặt hàng đã chọn và sẵn sàng đặt mua.
-                    </p>
-                </div>
+                {/* ... (Phần tiêu đề Giỏ hàng) ... */}
+
                 <div className="grid grid-cols-1 md:grid-cols-2 p-5 gap-5 bg-white w-[90%] mx-auto mt-5 rounded-lg shadow-lg overflow-hidden max-h-[400px] md:max-h-[300px] overflow-y-scroll">
                     {/* 💡 Thay đổi 10: Xử lý trường hợp giỏ hàng trống */}
-                    {listCartItem.length > 0 ? copy_arr : (
+                    {!(listCartItem.length > 0) ? (
                         <p className="text-center text-gray-500 md:col-span-2">Giỏ hàng của bạn đang trống.</p>
-                    )}
+                    )
+                        : (
+                            listCartItem.map(cart_item => {
+                                return (
+                                    <CartProduct
+                                        baselink={base_link}
+                                        key={cart_item.variant_id}
+                                        cart_item={cart_item}
+                                        // value={cart_item.cart_count} // Prop này không cần thiết vì đã có trong cart_item
+                                        onIncrease={() => handlePlus(cart_item.variant_id)}
+                                        onDecrease={() => handleMinus(cart_item.variant_id)}
+                                        checked={listSelected.includes(cart_item.variant_id)}
+                                        onChange={() => { handleSelect(cart_item.variant_id) }}
+                                    />
+                                )
+                            })
+                        )
+                    }
                 </div>
                 <div className="w-[90%] mx-auto mt-5 flex justify-end gap-5 md:justify-center">
                     <button
@@ -157,73 +201,19 @@ export function Cart() {
                         className="text-white bg-mainCL px-2 py-1 rounded-md font-semibold">
                         Mua ngay
                     </button>
+
+                    <button
+                        onClick={handleChangeCount}
+                        disabled={!hasUnsavedChanges} // Vô hiệu hóa nút nếu không có gì thay đổi
+                        className={`px-2 py-1 rounded-md font-semibold border transition-all
+                            ${hasUnsavedChanges
+                                ? "text-white bg-[#228B22] hover:bg-green-700"
+                                : "bg-white text-[#228B22] border-[#228B22] opacity-50 cursor-not-allowed"}
+                        `}>
+                        Lưu thay đổi số lượng
+                    </button>
                 </div>
             </div>
         </>
     );
-}
-
-
-// --- COMPONENT COUNT (Không đổi) ---
-export function Count({ value, onPlus, onMinus }) {
-    return (
-        <div className="flex font-semibold text-mainCL justify-between">
-            <i
-                onClick={onMinus}
-                className="bi bi-dash-square"
-            >
-            </i>
-            <span className="font-semibold text-center">{value}</span>
-            <i
-                onClick={onPlus}
-                className="bi bi-plus-square"
-            >
-            </i>
-        </div>
-    );
-}
-
-// --- COMPONENT CART_PRODUCT (Không đổi) ---
-// (Chỉ nhận thêm props onIncrease, onDecrease từ Cart)
-export function CartProduct({ cart_item, baselink, onIncrease, onDecrease, checked, onChange }) {
-    return (
-        <div
-            className="flex items-center bg-white justify-evenly rounded-md shadow-md shadow-gray-300 border p-0.5 px-2
-                         border-gray-300 cursor-pointer hover:scale-[101%] hover:shadow-mainCL transition-all
-                         duration-300 ease-in-out w-full"
-        >
-            <input
-                type="checkbox"
-                checked={checked}
-                onChange={onChange}
-            />
-            <div className="flex items-center gap-2 p-2">
-                <picture className="max-w-16">
-                    <img
-                        className="rounded-md"
-                        src={`${baselink}${cart_item.variant_img}`}
-                        alt={`${cart_item.phone_name} - ${cart_item.variant_ph_ram}GB/${cart_item.variant_ph_rom}GB`}
-                    />
-                </picture>
-                <div className="flex flex-col">
-                    <p className="text-sm font-bold">
-                        {cart_item.phone_name} - {cart_item.variant_ph_ram}GB/{cart_item.variant_ph_rom}GB
-                    </p>
-                    <p className="text-sm text-gray-600">
-                        {cart_item.phone_desc}
-                    </p>
-                    <div className="flex justify-between items-center my-1 px-2">
-                        <Count
-                            value={cart_item.cart_count}
-                            onPlus={onIncrease} // <--- Dùng prop được truyền từ Cart
-                            onMinus={onDecrease} // <--- Dùng prop được truyền từ Cart
-                        />
-                        <p className="text-base text-mainCL font-semibold">
-                            {priceFormatter(cart_item.variant_ph_final_price)} đ
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    )
 }

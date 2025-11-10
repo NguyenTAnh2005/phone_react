@@ -1,90 +1,163 @@
-import { ArticleCard } from "../Components/article_card";
-import { eg_article } from "../Data_Test/Data_Home_Test";
+import { useEffect, useState } from "react";
+// DL gia JSON LOAD LEN
+import { listCartItems as mockData } from "../Data_Test/CARTS"; // Đổi tên để rõ ràng
 import { scrollToTopSmooth } from "../utils/utils";
-export function Articles() {
-    const base_link = "https://res.cloudinary.com/df5mtvzkn/image/upload/q_auto,f_auto/WEB_SELL_PHONE__PROJECT/TEST/Test_IMG/";
+import { CartProduct } from "../Components/product_card";
 
-    const articlesList = [];
-    for (let i = 0; i < 8; i++) {
-        articlesList.push(
-            <ArticleCard key={"article" + i} baselink={base_link} article={eg_article}
-                fs_title={"base"} fs_text={"sm"} fs_desc={"xs"} />
-        );
+// --------------------------------------------------------
+
+
+export function Cart() {
+    const [listCartItem, setListCartItem] = useState([]);
+    // 💡 Thay đổi 1: Chỉ lưu ID của các sp được chọn. Sạch sẽ và dễ quản lý hơn.
+    const [selectedVariantIds, setSelectedVariantIds] = useState([]);
+
+    const fetched_cart_items = () => {
+        // FETCH API GET TAI DAY
+        // GIA LAP
+        const copy_listCartItem = mockData.listCartItems; // Lấy từ mock data đã import
+        setListCartItem(copy_listCartItem);
     }
 
-    return (
-        <div className="bg-gray-50">
-            {scrollToTopSmooth()}
-            <div className="flex justify-center">
-                <div className="w-[75%] md:w-[50%]">
-                    <SearchBar placeholder="Seach article....." type="button" />
-                </div>
-            </div>
-            <div className="py-5 flex flex-col relative animate__animated animate__fadeIn">
-                <div className="text-center mb-5">
-                    <p className="text-[50px] font-semibold text-mainCL">
-                        Articles Page
-                    </p>
-                    <p className="text-[20px] text-gray-600"
-                    >Latest news and insights about phones.
-                    </p>
-                </div>
-                <div
-                    className={`grid gap-4 px-5 grid-cols-1 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 w-[90%] mx-auto`}
-                >
-                    {articlesList}
-                </div>
-            </div>
-            <div className="pb-10">
-                <Pagination />
-            </div>
-        </div>
-    );
-}
-function Pagination() {
+    // Load Du lieu khi moi tai trang
+    useEffect(() => { fetched_cart_items(); }, []);
+
+    // 💡 Thay đổi 2: Sửa logic handleSelect, giờ chỉ làm việc với 'variant_id'
+    const handleSelect = (variant_id) => {
+        setSelectedVariantIds((prev) => {
+            // Nếu đã có ID trong mảng -> Bỏ ra (deselect)
+            if (prev.includes(variant_id)) {
+                return prev.filter((id) => id !== variant_id);
+            }
+            // Nếu chưa có -> Thêm vào (select)
+            else {
+                return [...prev, variant_id];
+            }
+        });
+    }
+
+    // 💡 Thay đổi 3: Hàm xử lý tăng/giảm số lượng (ĐÂY LÀ PHẦN TRẢ LỜI CÂU HỎI CỦA BẠN)
+    const handleQuantityChange = (variant_id, new_count) => {
+        // Chỉ cho phép số lượng >= 1
+        if (new_count < 1) return;
+
+        // 1. Cập nhật state local ngay lập tức (để UI mượt)
+        setListCartItem((prevList) =>
+            prevList.map((item) =>
+                item.variant_id === variant_id
+                    ? { ...item, cart_count: new_count } // Tìm đúng item và cập nhật count
+                    : item
+            )
+        );
+
+        // 2. (Giả lập) Gửi API lên server
+        // Trong thực tế, bạn sẽ dùng 'debounce' ở đây
+        console.log(`(Giả lập API) Cập nhật variant_id ${variant_id} lên số lượng ${new_count}`);
+    }
+
+    // Hàm helper cho nút +
+    const handleIncrease = (variant_id) => {
+        const item = listCartItem.find(p => p.variant_id === variant_id);
+        if (item) {
+            handleQuantityChange(variant_id, item.cart_count + 1);
+        }
+    }
+
+    // Hàm helper cho nút -
+    const handleDecrease = (variant_id) => {
+        const item = listCartItem.find(p => p.variant_id === variant_id);
+        if (item && item.cart_count > 1) { // Chỉ giảm khi > 1
+            handleQuantityChange(variant_id, item.cart_count - 1);
+        }
+    }
+
+
+    // 💡 Thay đổi 4: handleDelete giờ sẽ log ID và cập nhật lại UI
+    const handleDelete = () => {
+        if (selectedVariantIds.length === 0) {
+            alert("Bạn chưa chọn sản phẩm nào để xóa!");
+            return;
+        }
+
+        alert("Đã xóa các sản phẩm được chọn. Xem thông tin bên console!");
+        console.log("Cac variant_id duoc xoa: ", selectedVariantIds);
+
+        // (Giả lập API) Gửi 'selectedVariantIds' lên server để xóa
+        // ...
+
+        // Sau khi API thành công, cập nhật UI:
+        setListCartItem((prev) =>
+            prev.filter((item) => !selectedVariantIds.includes(item.variant_id))
+        );
+        // Xóa các lựa chọn
+        setSelectedVariantIds([]);
+    }
+
+    // 💡 Thay đổi 5: handleCheckout log đúng các ID
+    const handleCheckout = () => {
+        if (selectedVariantIds.length === 0) {
+            alert("Bạn chưa chọn sản phẩm nào để mua!");
+            return;
+        }
+
+        alert("Bạn muốn mua ngay sản phẩm được chọn, xem thông tin bên console!");
+        
+        console.log("Cac variant_id duoc chọn mua ngay: ", selectedVariantIds);
+    }
+
+    const base_link = "https://res.cloudinary.com/df5mtvzkn/image/upload/q_auto,f_auto/WEB_SELL_PHONE__PROJECT/TEST/Test_IMG/"
+
+    // 💡 Thay đổi 6: Sửa lỗi `listProduct` -> `listCartItem`
+    const copy_arr = listCartItem.map(p => {
+        return (
+            <CartProduct
+                baselink={base_link}
+                // 💡 Thay đổi 7: Sửa lỗi prop 'product' -> 'cart_item'
+                cart_item={p}
+                key={`${p.product_id}-${p.variant_id}`}
+                // 💡 Thay đổi 8: Logic 'checked' và 'onChange' dựa trên 'selectedVariantIds'
+                checked={selectedVariantIds.includes(p.variant_id)}
+                onChange={() => { handleSelect(p.variant_id) }}
+                // 💡 Thay đổi 9: Truyền hàm xử lý số lượng xuống
+                onIncrease={() => handleIncrease(p.variant_id)}
+                onDecrease={() => handleDecrease(p.variant_id)}
+            />)
+    })
     return (
         <>
-            <div className=" w-[55%] lg:w-[30%] mx-auto flex justify-center gap-1">
-                <CellControl control={"Prev"} />
-                <Cell index_page={"Page 1"} />
-                <CellControl control={"Next"} />
-            </div>
-            <div className="mx-auto flex justify-center mt-3 items-center">
-                <span className="me-5">Go to page:</span>
-                <input type="number" className="outline-none indent-4 w-20 py-1 rounded-l-md border border-gray-400" />
-                <button className="bg-mainCL text-white text-base px-2 py-1 rounded-r-md border border-mainCL" >OK</button>
+            {scrollToTopSmooth()}
+            <div className="bg-slate-50 animate__animated animate_fadeIn py-5">
+                <div className="text-center">
+                    <div className="flex font-bold text-5xl text-mainCL gap-5 justify-center">
+                        <i className="bi bi-cart-check"></i>
+                        <p className="">
+                            Giỏ hàng
+                        </p>
+                    </div>
+                    <p className="text-slate-800 font-semibold text-xl mt-3">
+                        Kiểm tra các mặt hàng đã chọn và sẵn sàng đặt mua.
+                    </p>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 p-5 gap-5 bg-white w-[90%] mx-auto mt-5 rounded-lg shadow-lg overflow-hidden max-h-[400px] md:max-h-[300px] overflow-y-scroll">
+                    {/* 💡 Thay đổi 10: Xử lý trường hợp giỏ hàng trống */}
+                    {listCartItem.length > 0 ? copy_arr : (
+                        <p className="text-center text-gray-500 md:col-span-2">Giỏ hàng của bạn đang trống.</p>
+                    )}
+                </div>
+                <div className="w-[90%] mx-auto mt-5 flex justify-end gap-5 md:justify-center">
+                    <button
+                        onClick={handleDelete}
+                        className="text-mainCL border border-mainCL px-2 py-1 rounded-md font-semibold">
+                        Xóa
+                    </button>
+                    <button
+                        onClick={handleCheckout}
+                        className="text-white bg-mainCL px-2 py-1 rounded-md font-semibold">
+                        Mua ngay
+                    </button>
+                </div>
             </div>
         </>
-    )
-}
-//============================== PHẦN CELL PAGINATION
-function Cell({ index_page }) {
-    return (
-        <div
-            title={`Go to page ${index_page}`}
-            className="text-mainCL text-base bg-white px-2 py-2 cursor-pointer font-semibold border border-gray-300">
-            <span>{index_page}</span>
-        </div>
-    )
-}
-//============================== PHẦN CELL CONTROL PAGINATION
-function CellControl({ control }) {
-    return (
-        <div
-            title={`Go to ${control} page`}
-            className="text-mainCL text-base bg-white px-2 py-2 cursor-pointer font-semibold border border-gray-300">
-            <span>{control}</span>
-        </div>
-    )
+    );
 }
 
-export function SearchBar({ placeholder, type }) {
-    return (
-        <form className="flex my-5 w-full border border-gray-300 rounded-lg">
-            <input type="text" className="w-full px-5 rounded-l-md py-2 outline-none" placeholder={placeholder} />
-            <button type={type}>
-                <i className="bi bi-search py-2 bg-mainCL text-white px-3 rounded-r-md"></i>
-            </button>
-        </form>
-    )
-}

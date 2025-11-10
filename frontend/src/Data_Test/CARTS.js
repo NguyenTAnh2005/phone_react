@@ -59,7 +59,7 @@ export const listCartItems = {
         },
         {
             product_id: 1,
-            variant_id: 3,
+            variant_id: 10,
             phone_name: "Iphone X",
             phone_desc: "iPhone 10 với thiết kế tai thỏ đột phá, màn hình OLED.",
             variant_ph_ram: 3,
@@ -92,7 +92,7 @@ export const listCartItems = {
         },
         {
             product_id: 5,
-            variant_id: 8,
+            variant_id: 9,
             phone_name: "Iphone X",
             phone_desc: "iPhone 10 với thiết kế tai thỏ đột phá, màn hình OLED.",
             variant_ph_ram: 3,
