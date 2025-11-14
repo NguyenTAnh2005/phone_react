@@ -1,65 +1,17 @@
 # 📱 Dự án Website Bán Điện Thoại Cũ
-
 ## 🌐 Demo
 👉 [Truy cập website tại đây](https://phone-react-nine.vercel.app/)
-
 ---
-
 ## 🧩 Giới thiệu
-
 Website bán điện thoại cũ cho phép người dùng xem danh sách sản phẩm, xem chi tiết từng điện thoại và thêm vào giỏ hàng hoặc danh sách yêu thích.  
 Dự án được xây dựng với **ReactJS** kết hợp **Tailwind CSS** để tạo giao diện hiện đại, tối ưu và dễ mở rộng.
-
 ---
-
 ## 🚀 Công nghệ sử dụng
 + Html, Css, JavaScript 
 + Thư viện, FrameWork: Tailwind CSS, React JS
-
-| Công nghệ | Mục đích sử dụng |
-|------------|------------------|
-| **HTML** | Xây dựng cấu trúc trang web |
-| **Tailwind CSS** | Thiết kế giao diện |
-| **ReactJS** | ,Xử lý logic và tương tác người dùng, xây dựng giao diện theo component, quản lý trạng thái |
-| **Vercel** | Deploy website online |
-
----
-
 ## ⚙️ Tính năng chính
 Chưa có dữ liệu chính thức và chính xác
-
 ---
-
-## 📂 Cấu trúc thư mục
-```bash
-📦 frontend
-├── 📁 public                  # File tĩnh (index.html, favicon, ảnh, v.v.)
-├── 📁 src                     # Mã nguồn chính của ứng dụng
-│   ├── 📁 assets              # Hình ảnh, icon, dữ liệu tĩnh
-│   ├── 📁 Components          # Các component tái sử dụng (Button, Modal, Input, v.v.)
-│   ├── 📁 Data_Test           # Dữ liệu mẫu dùng để hiển thị sản phẩm (JSON)
-│   ├── 📁 Layout              # Cấu trúc bố cục chung (Header, Footer, Navbar)
-│   ├── 📁 Pages               # Các trang chính của website (Home, ProductDetail, Cart, v.v.)
-│   ├── 📁 utils               # Hàm tiện ích (xử lý logic, định dạng dữ liệu, v.v.)
-│   │   └── utils.jsx
-│   ├── App.css
-│   ├── App.jsx
-│   ├── index.css
-│   └── main.jsx
-│
-├── .gitignore
-├── eslint.config.js
-├── index.html
-├── package.json
-├── package-lock.json
-├── postcss.config.js
-├── tailwind.config.js
-├── vercel.json
-├── vite.config.js
-└── README.md
-
----
-```
 
 # React App Setup Guide
 
@@ -136,21 +88,12 @@ npm run dev
 -----
 
 # Hướng Dẫn Khởi Động Ứng Dụng Frontend (Docker) 🐳
-
-Chào mừng đến với project Frontend\! Bạn có thể khởi động ứng dụng này một cách dễ dàng và nhất quán bằng Docker.
-
 ## Yêu Cầu Bắt Buộc
-
 1.  Đã cài đặt **Docker Desktop** và đang chạy trên máy của bạn.
-
 -----
-
 ## Các Bước Khởi Động 🚀
-
 Bạn chỉ cần thực hiện 3 bước sau đây trong Terminal:
-
 ### Bước 1: Chuẩn bị Môi trường
-
 1.  Tải toàn bộ project về máy tính của bạn.
 2.  Mở project trong VS Code và mở **Terminal** (chọn **CMD** hoặc **Bash**).
 3.  Di chuyển vào thư mục Frontend chứa file `Dockerfile`:
@@ -201,23 +144,15 @@ Mở trình duyệt và truy cập vào địa chỉ:
 ```
 http://localhost:8080
 ```
-
-
 -----
-
 ## 5\. Tắt Ứng Dụng và Dọn dẹp (Cleanup) 🧹
-
 Khi không sử dụng ứng dụng nữa, bạn nên tắt và xóa Container để giải phóng tài nguyên hệ thống.
-
 ### Cách 1: Dùng Docker Desktop App (Dễ nhất)
-
 1.  **Mở Docker Desktop:** Chuyển sang giao diện của ứng dụng Docker Desktop.
 2.  **Dừng:** Tìm Container có tên Image là `<TÊN_APP_CỦA_BẠN>:latest` hoặc tên ngẫu nhiên Docker đặt cho nó (ví dụ: `keen_sammet`).
 3.  Nhấn nút **Stop (hình vuông)** để dừng Container.
 4.  Nhấn nút **Remove (hình thùng rác)** để xóa Container đã dừng.
-
 ### Cách 2: Dùng Lệnh Terminal (Nhanh chóng)
-
 1.  **Tìm ID Container đang chạy:**
 ```bash
 docker ps
@@ -230,14 +165,10 @@ docker stop <ID_HOẶC_TÊN_CONTAINER>
 ```bash
 docker rm <ID_HOẶC_TÊN_CONTAINER>
 ```
-
 **Lưu ý:** Việc xóa Container (`docker rm`) **không xóa Image** (bản mẫu). Bạn có thể chạy lại ứng dụng bất cứ lúc nào bằng lệnh `docker run` mà không cần build lại.
-
 -----
-
 nội dung được soạn thảo bởi tôi và được chỉnh style + nội dung  bởi Chat GPT! 
 -----
-
 ✨ Chúc bạn cài đặt thành công và có trải nghiệm phát triển tuyệt vời\!
 
 
