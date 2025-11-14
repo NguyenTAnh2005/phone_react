@@ -1,14 +1,20 @@
-import { useState } from "react";
+import { useState, useEffect } from "react"; // Thêm useEffect
 import { Input, TextArea } from "../../Components/input";
 import { Modal } from "../../Components/modal";
-import { eg_hotline } from "../../Data_Test/Data_Home_Test";
+// import { eg_hotline } from "../../Data_Test/Data_Home_Test"; // <-- Sửa 1: Bỏ data import
 
-export function Address() {
+// --- Sửa 2: Nhận prop và reFetchAPI từ Cha ---
+export function Address({ prop, reFetchAPI }) {
     const [openAdd, setOpenAdd] = useState(false);
     const [openUpdate, setOpenUpdate] = useState(false);
-    // Biến lưu địa chỉ được chọn khi sửa TT để render ND lên input trước
     const [addressSelect, setAddressSelect] = useState(null);
-    const [isDefault, setIsDefault] = useState(false);
+
+    // --- Sửa 3: Dùng state để lưu data từ prop, và đồng bộ nó ---
+    const [hotlines, setHotlines] = useState(prop);
+    useEffect(() => {
+        setHotlines(prop);
+    }, [prop]);
+    // --- Hết Sửa 3 ---
 
     const handleOpenAdd = () => setOpenAdd(true);
     const handleOpenUpdate = (address) => {
@@ -20,8 +26,8 @@ export function Address() {
         setOpenUpdate(false);
     };
 
-
-    const arr_copy_address = eg_hotline.map(hl => {
+    // --- Sửa 4: Dùng state `hotlines` (đã nhận từ prop) thay vì `eg_hotline` ---
+    const arr_copy_address = hotlines.map(hl => {
         return <AddressItem isDefault={hl.hotline_default} address={hl} key={hl.hotline_id} handleOpenUpdate={() => { handleOpenUpdate(hl) }} />
     })
 
@@ -36,25 +42,27 @@ export function Address() {
                     {arr_copy_address}
                 </div>
 
+                {/* --- Sửa 5: Truyền reFetchAPI xuống Modal/AddressForm --- */}
                 <Modal
                     isOpen={openAdd}
                     title={"Thêm địa chỉ mới"}
                     onClose={handleCloseModal}
-                    jsxContent={<AddressForm mode="add" handleCloseModal={handleCloseModal} />}
+                    jsxContent={<AddressForm mode="add" handleCloseModal={handleCloseModal} reFetchAPI={reFetchAPI} />}
                 />
                 <Modal
                     isOpen={openUpdate}
                     title={"Chỉnh sửa địa chỉ"}
                     onClose={handleCloseModal}
-                    jsxContent={<AddressForm defaultAddress={addressSelect} handleCloseModal={handleCloseModal} />}
+                    jsxContent={<AddressForm defaultAddress={addressSelect} handleCloseModal={handleCloseModal} reFetchAPI={reFetchAPI} />}
                 />
+                {/* --- Hết Sửa 5 --- */}
             </div>
         </>
-
     );
 }
 
-function AddressForm({ mode, defaultAddress, handleCloseModal }) {
+// --- Sửa 6: Nhận `reFetchAPI` trong AddressForm ---
+function AddressForm({ mode, defaultAddress, handleCloseModal, reFetchAPI }) {
     const [formAddress, setFormAddress] = useState({
         hl_name: (defaultAddress) ? defaultAddress.hotline_name : "",
         hl_phonenumber: defaultAddress ? defaultAddress.hotline_phonenumber : "",
@@ -67,29 +75,28 @@ function AddressForm({ mode, defaultAddress, handleCloseModal }) {
         setFormAddress((prev) => ({ ...prev, [name]: type === "checkbox" ? checked : value }));
     }
 
-    // Khi bạn làm form trong React, bạn thường viết:
-    // const { name, value } = e.target;
-    // setFormData(prev => ({ ...prev, [name]: value }));
-    // 👉 Cách này hoạt động tốt cho input type="text", textarea, select,…
-    // Nhưng với checkbox, thì value không cho bạn biết checkbox đang được tick hay không ❌
-    // 🔍 Sự khác biệt của checkbox:
-    // Giả sử bạn có input:
-    // <input type="checkbox" name="agree" />
-    // Khi người dùng tick hoặc bỏ tick:
-    // e.target.value luôn là "on" (hoặc giá trị trong thuộc tính value="" nếu có) ❌
-    // e.target.checked mới là true / false ✅ (cho biết checkbox đang bật hay tắt)
-
+    // --- Sửa 7: Áp dụng logic "Shipper 1 (POST) -> Shipper 2 (GET)" ---
     const handleSubmitForm = async (e) => {
         e.preventDefault();
-        if (mode == "add") {
-            alert("Check dữ liệu thêm địa chỉ trong Dev Tools");
+
+        // 1. Giả lập gọi API POST/PUT (Shipper 1)
+        console.log("Form Address Data (Shipper 1 - POST): ", formAddress);
+        if (mode === "add") {
+            alert("Đang (giả lập) THÊM địa chỉ...");
+        } else {
+            alert("Đang (giả lập) CẬP NHẬT địa chỉ...");
         }
-        else {
-            alert("Check dữ liệu cập nhật địa chỉ trong Dev Tools");
-        }
-        console.log("Form Address Data: ", formAddress);
+        await new Promise(resolve => setTimeout(resolve, 500)); // Giả lập chờ 0.5s
+        alert("Đã (giả lập) cập nhật xong!");
+
+        // 2. Gọi reFetchAPI (Shipper 2 - GET)
+        reFetchAPI();
+
+        // 3. Đóng Modal
         handleCloseModal();
     }
+    // --- Hết Sửa 7 ---
+
     return (
         <>
             <form onSubmit={handleSubmitForm} className="mx-auto space-y-4">
@@ -137,6 +144,8 @@ function AddressForm({ mode, defaultAddress, handleCloseModal }) {
     )
 }
 
+// ... (Các component ButtonAddAddress, AddressItem giữ nguyên) ...
+
 function ButtonAddAddress({ clickFunc }) {
     return (
         <button
@@ -178,4 +187,3 @@ function AddressItem({ isDefault, address, handleOpenUpdate }) {
         </div>
     )
 }
-

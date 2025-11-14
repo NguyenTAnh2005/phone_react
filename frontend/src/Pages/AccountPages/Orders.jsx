@@ -1,10 +1,8 @@
-import React, { useState, useMemo } from "react";
-import { list_orders, eg_hotline } from "../../Data_Test/Data_Home_Test";
+import React, { useState, useMemo, useEffect } from "react"; // Thêm useEffect
+// import { list_orders, eg_hotline } from "../../Data_Test/Data_Home_Test"; // <-- Sửa 1: Bỏ data import
 import { priceFormatter, getStateText } from "../../utils/utils";
-// Import component OrderInfo bạn đã tạo
 import OrderInfo from "../OrderInfo";
 
-// Định nghĩa các tab lọc
 let List_Tag_Filter = [
     { key: "ALL", label: "Tất cả" },
     { key: "PREPARE", label: "Chuẩn bị hàng" },
@@ -12,21 +10,33 @@ let List_Tag_Filter = [
     { key: "DONE", label: "Hoàn tất" },
 ];
 
-export function Orders() {
-    //State lưu dữ DL càn thiết (VD đã res xng từ API) 
-    // Danh sách địa chhir của user, danh sách hóa đơn của user
-    const [userAddress] = useState(eg_hotline);
-    const [listOrder, setListOrder] = useState(list_orders);
+// --- Sửa 2: Nhận ordersProp, addressProp, và reFetchAPI ---
+// (reFetchAPI có thể không dùng, nhưng truyền vào là 1 thói quen tốt)
+export function Orders({ ordersProp, addressProp, reFetchAPI }) {
 
-    //State lưu đơn hàng để xem chi tiết  cần lưu 2 tham số, orderInfo + address từ hotline_id
+    // --- Sửa 3: Dùng state để lưu data từ prop ---
+    const [userAddress, setUserAddress] = useState(addressProp);
+    const [listOrder, setListOrder] = useState(ordersProp);
+    // --- Hết Sửa 3 ---
+
+    // --- Sửa 4: Đồng bộ state khi prop thay đổi (Giống Info2) ---
+    useEffect(() => {
+        setUserAddress(addressProp);
+    }, [addressProp]);
+
+    useEffect(() => {
+        setListOrder(ordersProp);
+    }, [ordersProp]);
+    // --- Hết Sửa 4 ---
+
     const [orderSelected, setOrderSelected] = useState(null);
-
-    // trạng thái của hóa đơn 
     const [activeFilter, setActiveFilter] = useState("ALL");
+
     const handleChangeTabFilter = (value) => {
         setActiveFilter(value);
     }
-    // Lọc danh sách hóa đơn dựa trên tag 
+
+    // (Không cần sửa useMemo, nó sẽ tự chạy lại khi listOrder thay đổi)
     const FilterdOrders = useMemo(() => {
         if (activeFilter === "ALL") {
             return listOrder;
@@ -34,8 +44,7 @@ export function Orders() {
         return listOrder.filter(order => order.state === activeFilter);
     }, [listOrder, activeFilter]);
 
-    // Xử lý khi chọn xem  chi tiết
-
+    // (Không cần sửa các hàm handler, chúng đang dùng state nội bộ)
     const handleViewInfo = (order) => {
         const address = userAddress.find(address => address.hotline_id === order.hotline_id);
         setOrderSelected({
@@ -44,13 +53,11 @@ export function Orders() {
         });
     }
 
-    // Xử lý khi nhấn "Quay lại" từ chi tiết đơn hàng
     const handleBackToList = () => {
         setOrderSelected(null);
     }
 
-    ////RENDER 
-
+    // (Toàn bộ phần RENDER giữ nguyên)
     if (orderSelected != null) {
         return (
             <div className="max-h-[300px] overflow-y-scroll relative">
@@ -99,7 +106,8 @@ export function Orders() {
     )
 }
 
-// UI cho tag lọc hóa đơn 
+// ... (Các component FilterTab, OrderSummary giữ nguyên) ...
+
 export function FilterTab({ tag, activeFilter, onChangeTabFilter }) {
     const active = tag.key === activeFilter;
     return (
@@ -111,8 +119,6 @@ export function FilterTab({ tag, activeFilter, onChangeTabFilter }) {
         </button>
     )
 }
-
-// UI cho hóa đơn
 
 export function OrderSummary({ order, onHandleViewInfo }) {
     return (
